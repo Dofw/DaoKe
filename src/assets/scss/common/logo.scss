@@ -1,0 +1,42 @@
+.logo {
+    font-size: 40px;
+    width: 10.5em;
+    padding: 0.2em;
+    border-radius: 0.325em;
+    box-shadow: 2px 2px 10px 0 #fff;
+    background-color: black;
+    .photo {
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url('../../assets/images/you1.jpg');
+        animation: eyeYou 12s cubic-bezier(0.17, 0.72, 0.29, 0.88) infinite;
+    }
+    span {
+        color: red;
+        font-size: 1em;
+        font-weight: 800;
+    }
+}
+@keyframes eyeYou {
+    to {
+        opacity: 0.1;
+        transform: rotateZ(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: rotateZ(360deg);
+    }
+    55% {
+        opacity: 1;
+        transform: rotateZ(360deg);
+    }
+    from {
+        opacity: 0.1;
+        transform: rotateZ(0deg);
+    }
+}

@@ -1,0 +1,30 @@
+@import './reset.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px; // 默认大小
+    width: 100vw;
+    height: 100vh;
+
+    // transform-style: preserve-3d;
+    // perspective: 62.5rem;
+    // perspective-origin: 25rem -6.25rem;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}

@@ -1,0 +1,99 @@
+@import './variable.scss';
+
+// 1. flex 布局reset
+.d-flex {
+    display: flex;
+}
+.flex-colunm {
+    // 两个属性，设置一个，另一个是默认的。
+    flex-direction: column;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.flex-1 {
+    // none -> 0 0 auto  auto -> 1 1 auto
+    // 0 auto 不写shrink为默认1，不写grow为默认0.
+    flex: 1; // 计算值：1 1 0%
+}
+.flex-grow-1 {
+    flex-grow: 1;
+}
+.flex-shrink-none {
+    flex-shrink: 0;
+}
+
+@each $name, $value in $flex-jc {
+    .jc-#{$name} {
+        justify-content: $value;
+    }
+}
+
+@each $name, $value in $flex-ai {
+    .ai-#{$name} {
+        align-items: $value;
+    }
+}
+
+@each $name, $value in $flex-ac {
+    .ac-#{$name} {
+        align-content: $value;
+    }
+}
+
+// 2. text 文本操作
+@each $name, $value in $text-align {
+    .text-#{$name} {
+        text-align: $value;
+    }
+}
+
+// 3. font-color bakground-color
+//font
+@each $name, $value in $color {
+    .#{$name} {
+        color: $value;
+    }
+}
+//bg-color
+@each $name, $value in $color {
+    .bg-#{$name} {
+        background-color: $value;
+    }
+}
+
+// 4. font-size
+@each $name, $value in $font-size {
+    .font-#{$name} {
+        font-size: $value;
+    }
+}
+
+// 5. margin padding interval
+@each $type, $type-value in $interval-types {
+    @each $size, $size-value in $interval-sizes {
+        // m-size
+        .#{$type}-#{$size} {
+            #{$type-value}: $size-value * $base-interval-size;
+        }
+        // mx-size
+        .#{$type}x-#{$size} {
+            #{$type-value}-right: $size * $base-interval-size;
+            #{$type-value}-left: $size * $base-interval-size;
+        }
+        // my-size
+        .#{$type}x-#{$size} {
+            #{$type-value}-top: $size * $base-interval-size;
+            #{$type-value}-bottom: $size * $base-interval-size;
+        }
+        //
+
+        //mt-size
+        @each $direction, $direction-value in $interval-directions {
+            .#{$type}#{$direction}-#{$size} {
+                #{$type-value}-#{$direction-value}: $size-value *
+                    $base-interval-size;
+            }
+        }
+    }
+}
