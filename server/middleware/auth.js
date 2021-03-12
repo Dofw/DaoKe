@@ -10,8 +10,9 @@ module.exports = () => {
 
         assert(token, 401, '请登录，token验证失败')
 
-        const { username } = jwt.verify(token, req.app.get('secret'))
-        req.user = await User.findOne({ username })
+        const { id } = jwt.verify(token, req.app.get('secret'))
+        req.id = id
+        req.user = await User.findOne({ _id: id })
             .select('+pwd')
             .populate('info')
             .lean()

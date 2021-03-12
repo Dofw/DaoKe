@@ -1,41 +1,61 @@
 module.exports = app => {
     const express = require('express')
+    const assert = require('http-assert')
     const router = express.Router({
         mergeParams: true // 将父级参数，共享到子集中。
     })
-    const upper = require('../utils/upperStart.js')
+    const authMiddleware = require('../middleware/auth.js')
+    const modelMiddleware = require('../middleware/model.js')
+    //create
+    modelMiddleware(),
+        router.post(
+            '/create',
+            // authMiddleware(),
+            modelMiddleware(),
+            async (req, res) => {
+                const data = req.body.data || {}
+                try {
+                    const source = await req.model.create(data)
+                    source.username = req.user._id
+                    await source.save()
+                    console.log(1111, source)
+                    res.status(401).send({ source })
+                } catch (error) {
+                    res.status(401).send({
+                        status: 401,
+                        message: `${req.params.model} 创建失败`
+                    })
+                }
+            }
+        )
 
-    // 新增
-    // router.get('/', async(req, res) => {
-    //     const info = await info.find()
-    // })
-
-    // 获取
-    // router.get('/', async(req, res) => {
-    //     const info = await info.find()
-    // })
-
-    // 修改
-    router.post('/:method', async (req, res) => {
-        console.log(JSON.stringify(req.body.data))
-        console.log(req.params)
-        let model = require(`../mongodb/account${upper(req.params.id)}.js`)
-        let method = req.params.method
-        let username = req.body.data.username
-
-        // update
-        const info = await model[method]({ username }, req.body.data)
-        console.log(111, info)
-
-        // 是否更新
-        const info1 = await model['find']({ username })
-        console.log(222, info1)
-
-        res.send({
-            status: 200,
-            message: info1
-        })
+    //find all
+    router.get('/find', modelMiddleware(), async (req, res) => {
+        const source = await req.model.find()
+        res.status(200).send(source)
     })
 
-    app.use('/admin/user/:id', router) //动态路由。
+    // update
+    router.post(
+        '/update',
+        authMiddleware(),
+        modelMiddleware(),
+        async (req, res) => {
+            // update
+            const source = await req.model.update(
+                { username: req.id },
+                req.body.data
+            )
+            console.log(source, req.user)
+
+            res.send({
+                status: 200,
+                message: info
+            })
+        }
+    )
+
+    // remove
+    router.post('/remove', (req, res) => {})
+    app.use('/admin/user/:model', router) //动态路由。
 }

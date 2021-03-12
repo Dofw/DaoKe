@@ -1,11 +1,17 @@
 <template>
-    <div class="user d-flex align-items-center flex-wrap p-1">
-        <div class="photo"></div>
+    <div class="user d-flex align-items-center flex-wrap ">
+        <img v-if="formInfo.photoUrl" :src="formInfo.photoUrl" alt="" />
+        <div class="photo" v-else></div>
         <div class="me d-flex align-self-end flex-grow-1 ">
-            <span class="flex-grow-1 ml-3">Dofw</span>
-            <i class="iconfont icon-bianji2 mr-2">编辑</i>
+            <span class="flex-grow-1 ml-3">{{ formInfo.nickname }}</span>
+            <div
+                class="d-flex justify-content-center align-content-around flex-wrap"
+            >
+                <i class="iconfont icon-bianji2 mr-2">注销</i>
+                <i class="iconfont icon-bianji2 mr-2" @click="show">修改</i>
+            </div>
             <form action="" id="formInfo">
-                <div class="nickname">
+                <div class="nickname" data-field-container="nickname">
                     <span>nickName</span>
                     <input
                         type="text"
@@ -13,21 +19,21 @@
                         placeholder="16个字节以内"
                         maxlength="16"
                         class="nickname"
-                        v-model="formInfo.nickname"
+                        :value="formInfo.nickname"
                         autocomplete="off"
                         data-field
                     />
-                    <p data-field-error></p>
                 </div>
                 <div class="uploadphoto">
                     <span>upload-photo</span>
                     <img
-                        v-if="formInfo.photoUrl"
+                        v-show="formInfo.photoUrl"
+                        id="prePhoto"
                         :src="formInfo.photoUrl"
                         alt=""
                         @click="uploadPre"
                     />
-                    <div v-else @click="uploadPre">
+                    <div @click="uploadPre">
                         <i class="iconfont icon-shangchuan"></i>
                     </div>
                     <input
@@ -37,15 +43,16 @@
                         style="display: none"
                     />
                 </div>
-                <div class="sex">
+                <div class="sex" data-field-container="sex">
                     <span>Sex</span>
                     <input
                         type="radio"
                         name="sex"
                         id="man"
                         value="man"
-                        v-model="formInfo.sex"
                         :checked="formInfo.sex === 'man'"
+                        data-field
+                        data-field-attr="checked"
                     />
                     <label for="man">男</label>
                     <input
@@ -53,12 +60,13 @@
                         name="sex"
                         id="woman"
                         value="woman"
-                        v-model="formInfo.sex"
                         :checked="formInfo.sex === 'woman'"
+                        data-field
+                        data-field-attr="checked"
                     />
                     <label for="woman">女</label>
                 </div>
-                <div class="games">
+                <div class="games" data-field-container="games">
                     <span>Games</span>
                     <p>
                         <label for="loves-1"
@@ -66,8 +74,9 @@
                                 type="text"
                                 name="games"
                                 id="games-1"
-                                v-model="formInfo.games[0]"
+                                :value="formInfo.games[0]"
                                 autocomplete="off"
+                                data-field
                         /></label>
 
                         <label for="loves-2"
@@ -75,8 +84,9 @@
                                 type="text"
                                 name="games"
                                 id="games-2"
-                                v-model="formInfo.games[1]"
+                                :value="formInfo.games[1]"
                                 autocomplete="off"
+                                data-field
                         /></label>
 
                         <label for="loves-3"
@@ -84,22 +94,27 @@
                                 type="text"
                                 name="games"
                                 id="games-3"
-                                v-model="formInfo.games[2]"
+                                :value="formInfo.games[2]"
                                 autocomplete="off"
+                                data-field
                         /></label>
                         <label for="loves-4"
                             ><input
                                 type="text"
                                 name="games"
                                 id="games-4"
-                                v-model="formInfo.games[3]"
+                                :value="formInfo.games[3]"
                                 autocomplete="off"
+                                data-field
                         /></label>
                     </p>
                 </div>
                 <div class="submit">
                     <button type="text" @click="formInfoSubmit">
                         提交
+                    </button>
+                    <button type="text" @click="unShow">
+                        取消
                     </button>
                 </div>
             </form>
@@ -108,11 +123,26 @@
 </template>
 
 <script>
-import useFormInfo from '@/compositions/user/useFormInfo.js'
+import { reactive, ref } from 'vue'
+import useFormInfoInitData from '@/compositions/user/useFormInfoInitData.js'
+import useFormInfoEvent from '@/compositions/user/useFormInfoEvent.js'
 export default {
     setup() {
+        //初始化假数据
+        let initInfo = {
+            nickname: '刀客',
+            photoUrl: null,
+            sex: 'man', // 默认男
+            games: [],
+            username: ''
+        }
+
+        const formInfo = reactive(initInfo)
+        //获取服务端数据
+        useFormInfoInitData(formInfo)
         return {
-            ...useFormInfo()
+            ...useFormInfoEvent(formInfo),
+            formInfo
         }
     }
 }

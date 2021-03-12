@@ -30,7 +30,6 @@ module.exports = app => {
                     msg: req.err
                 })
             }
-            console.log(req.files[fieldKeys[0]][0])
             req.files[fieldKeys[0]][0].url =
                 `http://localhost:3000/admin/public/upload/${req.params.category}/` +
                 req.files[fieldKeys[0]][0].filename

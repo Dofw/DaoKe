@@ -44,7 +44,6 @@ import router from '@/routes/index.js'
 import useLoginValidatorInstance from '@/compositions/account/useLoginValidatorInstance.js'
 import $http from '@/axios/http.js'
 
-console.log(router)
 export default {
     setup() {
         const validatorInstanceRef = ref(null) //初始化，响应式验证实例对象。

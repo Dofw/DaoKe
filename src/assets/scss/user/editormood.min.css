@@ -1,0 +1,124 @@
+@keyframes imgRotate {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+form.editormood {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+form.editormood div.mood {
+  position: absolute;
+  width: 100%;
+  z-index: 101;
+}
+
+form.editormood div.mood textarea {
+  width: 100%;
+  height: 3.125rem;
+  border-radius: 0.625rem;
+  outline-style: none;
+  resize: none;
+  transition: height 0.8s;
+}
+
+form.editormood div.mood textarea.active {
+  height: 190px;
+}
+
+form.editormood div.mood textarea::placeholder {
+  color: #999999;
+}
+
+form.editormood div.moodelse {
+  position: absolute;
+  width: 100%;
+  top: 55px;
+}
+
+form.editormood div.moodelse div.upload {
+  margin-bottom: 10px;
+  justify-content: flex-end;
+}
+
+form.editormood div.moodelse div.upload div.mp3 span {
+  display: inline-block;
+  height: 30px;
+  width: 85px;
+  margin-right: 10px;
+  font-weight: 800;
+  text-align: center;
+  border-radius: 5px;
+  z-index: 100;
+  background-color: #20c997;
+}
+
+form.editormood div.moodelse div.upload div.mp3 input {
+  display: none;
+}
+
+form.editormood div.moodelse div.upload div.picture span {
+  display: inline-block;
+  height: 30px;
+  width: 85px;
+  margin-right: 10px;
+  font-weight: 800;
+  text-align: center;
+  border-radius: 5px;
+  z-index: 100;
+  background-color: #0dcaf0;
+}
+
+form.editormood div.moodelse div.upload div.picture input {
+  display: none;
+}
+
+form.editormood div.moodelse div.resMusic {
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+form.editormood div.moodelse div.resMusic > img {
+  position: absolute;
+  left: 50px;
+  top: -30px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  transform: rotateZ(0deg);
+}
+
+form.editormood div.moodelse div.resMusic > img.active {
+  animation: imgRotate 10s cubic-bezier(0, 0, 1, 1) infinite;
+}
+
+form.editormood div.moodelse div.resMusic > audio {
+  height: 40px;
+  margin-right: 10px;
+  outline-style: none;
+}
+
+form.editormood div.moodelse div.btn {
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+form.editormood div.moodelse div.btn button {
+  float: right;
+  width: 100px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border-style: none;
+  outline-style: none;
+  background-color: #fd7e14;
+}

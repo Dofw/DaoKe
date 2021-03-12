@@ -1,0 +1,19 @@
+.container-fluid .my-menus {
+  width: 15.625rem;
+  padding: 0.3125rem;
+  border-top-left-radius: 0.625rem;
+  border-bottom-left-radius: 0.625rem;
+  box-shadow: inset -10px 0px 20px 0px #f8f9fa;
+}
+
+.container-fluid .my-menus > div {
+  margin-bottom: 10px;
+}
+
+.container-fluid .my-content {
+  background-color: #6c757d;
+  border-left: 5px solid #6c757d;
+  box-shadow: inset 0px 0px 10px 0px #f8f9fa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

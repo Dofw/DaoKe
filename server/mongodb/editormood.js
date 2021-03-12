@@ -6,23 +6,20 @@ const Editormood = mongoose.model(
     'Editormood',
     mongoose.Schema({
         usename: {
-            require: true,
-            type: String,
-            trim: true
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'User'
         },
         mood: {
             type: String,
             trim: true,
-            default: ''
+            required: true
         },
         updloadMp3: {
             type: String,
-            trim: true,
             default: null
         },
         updloadPic: {
             type: String,
-            trim: true,
             default: null
         },
         time: {

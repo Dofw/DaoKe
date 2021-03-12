@@ -8,13 +8,13 @@ import Regist from '../components/account/regist.vue'
 const routes = [
     {
         path: '/',
-        redirect: '/account/regist'
+        redirect: '/account/login'
     },
     {
         // 为个人中心。
         path: '/user',
         component: User,
-        // redirect: '/user/detail',
+        redirect: '/user/detail',
         children: [
             {
                 path: 'detail',

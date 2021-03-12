@@ -52,8 +52,7 @@ module.exports = app => {
         // 校验成功后，生成token  这里的secret是加强安全性的。
         const token = jwt.sign(
             {
-                id: user._id,
-                username: user.username
+                id: user._id
             },
             app.get('secret')
         )

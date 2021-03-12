@@ -23,12 +23,19 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
 }
 
 /**
+ * 由于，在map3的点击事件函数中，所以dom已经渲染完成了。
  * 封装方法，获取dom，绑定change事件，触发dom的click事件 参数#name ,ref
  */
 function span2inputFile(id, ref) {
     const fileName = id.split('#')[1]
     const dom = document.querySelector(id)
     dom.onchange = async e => {
+        // 1. 预上传
+
+        // 2. 提交按钮，在正正上传。
+        // 2.1 获取data
+        // 2.2 发送请求
+        // 2.3 将mood数据回复最初展示。
         // 变化完成后，在获取 file文件，生成formData数据。
         const formData = new FormData()
         formData.append(fileName, dom.files[0])

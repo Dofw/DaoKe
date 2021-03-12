@@ -60,3 +60,8 @@
        1. template中，不需要像2那样，给每个根节点添加key。3中，只需要在template中添加就ok
        2. v-if v-else-if v-else中，不需要添加key来解决之前的input内容保留到另外条件下的input中。vue3自动添加key，如果想保留数据，哪就绑定统一个数据。
     3. template，不强制增加根节点了
+
+### 有关 es6 模块化 ，遇到的问题。
+
+    1. 路由组件，中再次引入 router。此时 router 为undefined,
+       1. 原因：router建立时他依赖组件，由于es6模块化所谓的依赖倒置，后依赖的先执行。同时，引入$http模块，其内部引入router也是同样的道理。

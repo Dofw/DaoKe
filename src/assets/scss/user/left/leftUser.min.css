@@ -1,0 +1,107 @@
+.user {
+  margin-bottom: 10px;
+  border-radius: 0.625rem;
+  box-shadow: 2px 2px 10px 0 #fff;
+}
+
+.user .me {
+  position: relative;
+  width: 60%;
+}
+
+.user .me span {
+  width: 20%;
+  font-size: 1.3rem;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user .me i {
+  line-height: 220%;
+  vertical-align: bottom;
+  font-weight: 800;
+}
+
+.user .me form {
+  position: absolute;
+  left: 110%;
+  top: 0;
+  width: 300px;
+  padding: 10px;
+  z-index: 1000;
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
+.user .me form > div {
+  position: relative;
+}
+
+.user .me form > div.uploadphoto {
+  height: 100px;
+}
+
+.user .me form > div span {
+  margin-right: 10px;
+}
+
+.user .me form > div img {
+  position: absolute;
+  left: 10px;
+  top: 30px;
+  width: 60px;
+  height: 60px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.user .me form > div > div {
+  position: absolute;
+  left: 5px;
+  top: 35px;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.user .me form > div > div i {
+  font-size: 2rem;
+  line-height: 60px;
+}
+
+.user .me form > div > p input {
+  width: 100px;
+  margin-right: 5px;
+}
+
+.user .me form > div input {
+  text-align: center;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+}
+
+.user .me form > div input.nickname {
+  width: 7rem;
+}
+
+.user .me form > div input.uploadphoto {
+  width: 6rem;
+}
+
+.user .photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  box-shadow: 2px 2px 5px 0 #000;
+  background-image: url("../../../assets/images/you1.jpg");
+}

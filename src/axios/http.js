@@ -1,8 +1,6 @@
 import axios from 'axios'
 import router from '@/routes/index.js'
 
-console.log(111, router)
-
 // process.env.VUE_APP_API_URL 这里是dev环境下。打包后，不存在就变成了 /
 
 const $http = axios.create({
@@ -30,11 +28,11 @@ $http.interceptors.response.use(
         return res.data
     },
     err => {
-        console.log(err.response.data)
+        console.log(err.response)
         switch (err.response.status) {
             case 401: //前后端约定，401为请登录。
                 alert(err.response.data.message)
-                // router.push('/account/login')
+                router.push('/account/login')
                 break
         }
         return Promise.reject(err)
