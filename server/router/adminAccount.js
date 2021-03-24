@@ -4,9 +4,8 @@ module.exports = app => {
     const router = express.Router()
     const bcrypt = require('bcrypt')
     const jwt = require('jsonwebtoken')
-    const User = require('../mongodb/accountUser.js')
-    const Info = require('../mongodb/accountInfo.js')
-    const authMiddleware = require('../middleware/auth.js')
+    const User = require('../mongodb/user.js')
+    const Info = require('../mongodb/info.js')
 
     // 注册
     router.post('/admin/account/regist', async (req, res) => {
@@ -58,15 +57,6 @@ module.exports = app => {
         )
 
         res.send({ token })
-    })
-
-    // 获取用户资源：item
-    router.get('/admin/resource/:item', authMiddleware(), async (req, res) => {
-        const item = req.params.item
-        res.send({
-            status: 200,
-            message: req.user ? req.user[item] : null
-        })
     })
 
     app.use(router)

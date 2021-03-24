@@ -16,8 +16,10 @@ app.use(
 
 require('./mongodb/connect.js')()
 require('./router/adminUpload.js')(app)
-require('./router/adminUserCRUD.js')(app)
+require('./router/adminResourceCRUD.js')(app)
 require('./router/adminAccount.js')(app)
+require('./router/test.js')(app)
+require('./router/comment-router.js')(app)
 
 app.use((err, req, res, next) => {
     res.status(err.statusCode || 500).send({

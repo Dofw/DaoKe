@@ -1,0 +1,20 @@
+.mood-comment-list {
+    > div {
+        margin-bottom: 10px;
+        &.mood-comment--btn {
+            .el-badge {
+                &:nth-of-type(1) {
+                    margin-right: 10px;
+                }
+            }
+        }
+        &.moode-comment-editor {
+        }
+        &.mood-comment-show {
+        }
+    }
+
+    .el-button {
+        outline: none;
+    }
+}

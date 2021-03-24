@@ -18,24 +18,32 @@ module.exports = app => {
         ]),
         (req, res) => {
             const fieldKeys = Object.keys(req.files) // 多个文件，就需要for循环。生成路径。
+
+            // 没上传文件
             if (fieldKeys.length === 0) {
                 return res.status(200).send({
                     status: 200,
-                    msg: '设置个性头像，彰显个人魅力'
+                    msg: '没有上传文件'
                 })
             }
+
+            // 中间件验证的错误msg
             if (req.err) {
+                console.log(121, req.err)
                 return res.status(500).send({
                     status: 500,
                     msg: req.err
                 })
             }
+
+            // 生成服务端文件路径
             req.files[fieldKeys[0]][0].url =
                 `http://localhost:3000/admin/public/upload/${req.params.category}/` +
                 req.files[fieldKeys[0]][0].filename
 
             res.status(200).send({
                 status: 200,
+                fieldname: fieldKeys[0],
                 url: req.files[fieldKeys[0]][0].url
             })
         }

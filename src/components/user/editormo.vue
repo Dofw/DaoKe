@@ -1,28 +1,38 @@
 <template>
     <form action="" class="editormood">
-        <div class="mood">
+        <div class="mood" data-field-container="mood">
             <textarea
                 name="mood"
                 id="mood"
                 @click="unfoldArea"
                 @keydown.esc="shrinkArea"
                 @dblclick="shrinkArea"
+                data-field
                 placeholder="Write moode! start-single-click end-double-click or esc"
             ></textarea>
         </div>
         <div class="moodelse">
             <div class="upload d-flex">
-                <div class="mp3">
+                <div class="mp3" data-field-container="mp3">
                     <span @click="mp3Span">mp3</span>
-                    <input type="file" name="mp3" id="mp3" accept="audio/*" />
+                    <input
+                        type="file"
+                        name="mp3"
+                        id="mp3"
+                        accept="audio/*"
+                        data-field
+                        data-field-attr="files"
+                    />
                 </div>
-                <div class="picture">
+                <div class="picture" data-field-container="picture">
                     <span @click="pictureSpan">picture</span>
                     <input
                         type="file"
                         name="picture"
                         id="picture"
                         accept="image/*"
+                        data-field
+                        data-field-attr="files"
                     />
                 </div>
             </div>
@@ -32,7 +42,7 @@
                 <audio :src="mp3Url" controls="controls"></audio>
             </div>
             <div class="btn">
-                <button>提交</button>
+                <button @click.prevent="submit">提交</button>
             </div>
         </div>
     </form>

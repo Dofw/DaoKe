@@ -32,7 +32,7 @@ $http.interceptors.response.use(
         switch (err.response.status) {
             case 401: //前后端约定，401为请登录。
                 alert(err.response.data.message)
-                router.push('/account/login')
+                // router.push('/account/login')
                 break
         }
         return Promise.reject(err)

@@ -1,4 +1,6 @@
 import User from '../views/User.vue'
+import Home from '@/views/Home.vue'
+import HomeMood from '@/views/HomeMood.vue'
 import Editor from '../components/user/editor.vue'
 import Chat from '../components/user/chat.vue'
 import Account from '../views/Account.vue'
@@ -8,7 +10,7 @@ import Regist from '../components/account/regist.vue'
 const routes = [
     {
         path: '/',
-        redirect: '/account/login'
+        redirect: '/home'
     },
     {
         // 为个人中心。
@@ -32,6 +34,7 @@ const routes = [
     {
         path: '/account',
         component: Account,
+        redirect: '/account/login',
         children: [
             {
                 path: 'login',
@@ -41,6 +44,24 @@ const routes = [
                 path: 'regist',
                 component: Regist
             }
+        ]
+    },
+    {
+        path: '/home',
+        component: Home,
+        children: [
+            {
+                path: 'mood',
+                component: HomeMood
+            }
+            // {
+            //     path: 'todo',
+            //     component: Mood
+            // },
+            // {
+            //     path: 'chat',
+            //     component: Mood
+            // }
         ]
     }
 ]

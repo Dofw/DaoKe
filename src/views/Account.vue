@@ -11,8 +11,7 @@
 import logo from '../components/common/logo.vue'
 import {} from 'vue'
 export default {
-    setup() {
-    },
+    setup() {},
     components: {
         logo
     }

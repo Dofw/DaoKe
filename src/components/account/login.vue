@@ -31,7 +31,9 @@
                         v-slot="{ navigate }"
                         ><span role="link" @click="navigate">regist</span>
                     </router-link>
-                    <span>home</span>
+                    <router-link custom to="/home/mood" v-slot="{ navigate }"
+                        ><span role="link" @click="navigate">home</span>
+                    </router-link>
                 </div>
             </div>
         </form>
@@ -70,7 +72,7 @@ export default {
                             sessionStorage.token = res.token
                         }
                         alert('登录成功')
-                        router.push('/user')
+                        router.push('/home/mood')
                     })
             } else {
                 validator.setStatus()

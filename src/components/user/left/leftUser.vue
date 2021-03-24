@@ -7,7 +7,10 @@
             <div
                 class="d-flex justify-content-center align-content-around flex-wrap"
             >
-                <i class="iconfont icon-bianji2 mr-2">注销</i>
+                <router-link custom v-slot="{ navigate }" to="/home/mood"
+                    ><i @click="navigate">home</i>
+                </router-link>
+                <i class="iconfont icon-bianji2 mr-2">注销 </i>
                 <i class="iconfont icon-bianji2 mr-2" @click="show">修改</i>
             </div>
             <form action="" id="formInfo">
@@ -33,8 +36,9 @@
                         alt=""
                         @click="uploadPre"
                     />
+
                     <div @click="uploadPre">
-                        <i class="iconfont icon-shangchuan"></i>
+                        <i id="preDiv" class="iconfont icon-shangchuan"></i>
                     </div>
                     <input
                         type="file"
