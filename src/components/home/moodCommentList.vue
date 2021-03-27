@@ -11,22 +11,63 @@
                 <el-button size="mini" @click="onTrigger">评论</el-button>
             </el-badge>
         </div>
+
         <div v-if="!isShow" class="mood-comment--editor d-flex">
-            <el-input
-                type="textarea"
-                placeholder="请输入内容"
-                v-model="textarea"
-                maxlength="30"
-                show-word-limit
-            >
-            </el-input>
-            <el-button @click.prevent="onSubmit">提交</el-button>
+            <mood-comment-input @myclick="onCreateCom"></mood-comment-input>
         </div>
         <div v-show="!isShow" class="mood-comment--show">
-            <el-card class="box-card ">
-                <div v-for="com in data" :key="com._id" class="text item ">
-                    {{ com.reviewer.nickname ? com.reviewer.nickname : '刀客'
-                    }}{{ com.content }}
+            <el-card
+                class="box-card "
+                :body-style="{ backgroundColor: '#6f42c1' }"
+            >
+                <div
+                    v-for="(com, index) in comsData"
+                    :key="com._id"
+                    class="text item "
+                >
+                    <div class="comment-structure">
+                        <div
+                            class="comment-structure-content d-flex align-items-center"
+                        >
+                            <img
+                                v-if="com.reviewer.photoUrl"
+                                :src="com.reviewer.photoUrl"
+                                alt=""
+                            />
+                            <img v-else src="" alt="默认头像" />
+                            <div class="flex-grow-1">
+                                <p>
+                                    {{
+                                        com.reviewer.nickname
+                                            ? com.reviewer.nickname
+                                            : '刀客'
+                                    }}
+                                </p>
+                                <p>{{ com.content }}</p>
+                                <div>
+                                    {{ com.time }}
+                                    <el-button
+                                        size="mini"
+                                        @click="onSwitch(index)"
+                                        >回复</el-button
+                                    >
+                                    <el-button size="mini">点赞</el-button>
+                                </div>
+                                <div
+                                    v-if="isSwitch(index)"
+                                    class="mood-comment--editor d-flex"
+                                >
+                                    <mood-comment-input
+                                        @myclick="onCreateRep($event, com)"
+                                    ></mood-comment-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment-structure-reply ">
+                            <mood-comment-reply-list :com="com" />
+                        </div>
+                    </div>
                 </div>
             </el-card>
         </div>
@@ -34,22 +75,111 @@
 </template>
 
 <script>
-// import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import useCommentShow from '@/compositions/home/useCommentShow.js'
 import useCommentInterface from '@/compositions/home/useCommentInterface.js'
+import MoodCommentInput from '@/components/home/moodCommentInput.vue'
+import MoodCommentReplyList from './moodCommentReplyList.vue'
+
 export default {
+    name: 'mood-comment-list', // 递归组件
     props: {
         auther: {
+            type: String,
+            required: true
+        },
+        type: {
+            //mood,media等类型
+            type: String,
+            required: true
+        },
+        moodId: {
+            //评论接口，对应父级为mood下。
             type: String,
             required: true
         }
     },
 
-    setup(props) {
-        return {
-            ...useCommentShow(),
-            ...useCommentInterface(props)
+    setup(props, context) {
+        /**
+         * 切换功能
+         */
+        const switchRef = ref(false)
+        const num = ref(null)
+        const onSwitch = index => {
+            num.value = index
+            switchRef.value = !switchRef.value
         }
+        const isSwitch = computed({
+            get() {
+                return index => {
+                    return index === num.value && switchRef.value
+                }
+            }
+        })
+
+        // 交互功能
+        const comsData = ref([])
+        const repsData = ref({})
+        const body = {
+            auther: props.auther, // mood的作者
+            type: props.type, // mood类型
+            moodId: props.moodId // 该moodId
+            // content: condition.textarea // 评论内容
+        }
+        const params = {
+            // type: props.type,
+            moodId: props.moodId
+        }
+
+        const interfaceObj = useCommentInterface()
+        const { onGetComs, onComment, onGetReps, onReply } = interfaceObj
+
+        // 评论input组件触发的接受函数
+        const onCreateCom = condition => {
+            body.cotent = condition.textarea
+            onComment(condition, body, comsData)
+        }
+
+        // 回复input组件触发的接受函数
+        const onCreateRep = (condition, com) => {
+            console.log(com)
+            let body = {
+                auther: com.reviewer.username,
+                tier: condition.tier,
+                content: condition.textarea,
+                commentId: props.com._id //耦合props属性。
+            }
+            // debugger
+            onReply(condition, body) // 如何创建后，让页面重新刷新呢。
+        }
+
+        // 获取数据
+        onMounted(async () => {
+            //$http错误的问题都集中在http中，如果入刑到这里，说明是成功的返回结果。
+            const coms = await onGetComs(params)
+            comsData.value = coms.message
+            // // 根据coms，请求对应_id条件下的rep
+            // coms.message.forEach(async com => {
+            //     const rep = await onGetReps(com)
+            //     repsData.value[com._id] = rep.message
+            // })
+        })
+
+        return {
+            onSwitch,
+            isSwitch,
+            onCreateCom,
+            onCreateRep,
+            comsData,
+            repsData,
+            ...useCommentShow()
+        }
+    },
+
+    components: {
+        MoodCommentInput,
+        MoodCommentReplyList
     }
 }
 </script>

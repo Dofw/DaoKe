@@ -3,7 +3,7 @@
         <div class="mood-content--top">
             <div class="d-flex align-items-center">
                 <el-avatar
-                    :size="30"
+                    size="small"
                     :fit="'cover'"
                     :src="info.photoUrl ? info.photoUrl : ''"
                     icon="el-icon-user-solid"
@@ -24,12 +24,14 @@
         </div>
 
         <!-- 评论组件 -->
-        <mood-comment-list :auther="username" />
+        <mood-comment-list :auther="username" :moodId="_id" type="mood" />
     </div>
 </template>
 
 <script>
 import MoodCommentList from '@/components/home/moodCommentList.vue'
+import { ref, onMounted } from 'vue'
+import $http from '@/axios/http.js'
 export default {
     props: {
         mood: { type: String },
@@ -43,9 +45,18 @@ export default {
             //mood模块的usernameId
             type: String,
             requied: true
+        },
+        _id: {
+            type: String,
+            required: true
         }
     },
-    setup() {},
+    setup(props) {
+        const moodsRef = ref([])
+        onMounted(async () => {
+            const res = await $http.get('/admin/resource/mood/find')
+        })
+    },
     components: {
         MoodCommentList
     }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const Comment = mongoose.model(
-    'Comment',
+const Reply = mongoose.model(
+    'Reply',
     new mongoose.Schema({
         content: {
             type: String,
@@ -13,21 +13,22 @@ const Comment = mongoose.model(
             required: true,
             ref: 'Info'
         },
-        type: {
-            //关于某类，mood类型
-            type: String,
-            required: true
-        },
-        moodId: {
-            //为mood的id。
+        commentId: {
+            // 双层模式
+            // 绑定在对应评论下。
             type: mongoose.SchemaTypes.ObjectId,
             required: true
+        },
+        tier: {
+            // 辨别 回复的回复，还是评论的回复。
+            type: Number,
+            required: true,
+            default: 1 //回复的回复
         },
 
         reviewer: {
             //评论者info
             type: mongoose.SchemaTypes.ObjectId,
-            required: true,
             ref: 'Info'
         },
         time: {
@@ -37,4 +38,4 @@ const Comment = mongoose.model(
     })
 )
 
-module.exports = Comment
+module.exports = Reply

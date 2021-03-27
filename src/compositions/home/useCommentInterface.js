@@ -1,50 +1,61 @@
-import { ref, onMounted } from 'vue'
 import $http from '@/axios/http.js'
 
-export default function useCommentInterface(props) {
-    const data = ref([])
-    const textarea = ref('')
-
-    onMounted(async () => {
-        const coms = await onGetComs()
-        console.log(coms.message)
-        data.value = coms.message
-    })
-
-    //发送请求
-    /**
-     * @param(comment)
-     * @param(autherId)
-     * @param(type)
-     */
-
-    const onSubmit = async () => {
+export default function useCommentInterface() {
+    //评论接口，新增
+    const onComment = async (condition, body, comsRef) => {
         //获取数据，在异步中获取。setup函数执行一次。
-        const body = {
-            auther: props.auther,
-            type: 'mood',
-            content: textarea.value
+        if (!condition.textarea) {
+            //为空
+            return false
         }
-        await $http.post('/admin/comment/create', {
+        body.content = condition.textarea
+        await $http.post('/admin/discuss/comment/create', {
             data: body
         })
-        // 提交完，textarea设置为null
-        textarea.value = null
+
         const coms = await onGetComs()
-        data.value = coms.message
+        comsRef.value = coms.message
     }
 
     //获取数据
-    const onGetComs = async () => {
-        const res = await $http.get('/admin/comment/find', {
-            params: { auther: props.auther, type: 'mood' }
+    const onGetComs = async params => {
+        const res = await $http.get('/admin/discuss/comment/find', {
+            params: params
         })
         return res
     }
+
+    /**
+     * 回复接口， 新增
+     */
+    const onReply = async (condition, body, repsRef) => {
+        //获取数据，在异步中获取。setup函数执行一次。
+        if (!condition.textarea) {
+            //为空
+            return false
+        }
+
+        await $http.post('/admin/discuss/comment-reply/create', {
+            data: body
+        })
+        const reps = await onGetReps(body.commentId)
+        repsRef.value = reps.message
+    }
+
+    //获取数据
+    const onGetReps = async commentId => {
+        const res = await $http.get('/admin/discuss/comment-reply/find', {
+            params: {
+                commentId: commentId
+            }
+        })
+        return res
+    }
+
     return {
-        data,
-        textarea,
-        onSubmit,
-        onGetComs
+        onComment,
+        onReply,
+        onGetComs,
+        onGetReps
     }
 }

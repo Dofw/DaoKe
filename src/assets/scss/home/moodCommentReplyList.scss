@@ -1,0 +1,9 @@
+.comment-reply-list {
+    width: 100%;
+    .comment-reply-item {
+        // border-bottom: 1px solid black;
+        > div {
+            margin-bottom: 5px;
+        }
+    }
+}

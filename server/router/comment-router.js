@@ -7,43 +7,68 @@ module.exports = app => {
 
     const Info = require('../mongodb/info.js')
     const Comment = require('../mongodb/comment.js')
+    const Reply = require('../mongodb/comment-reply.js')
 
-    const router = express.Router()
+    const router = express.Router({ mergeParams: true })
 
-    //创建评论
-    router.post('/admin/comment/create', authMiddleware(), async (req, res) => {
-        // 前端验证数据。
-        const data = req.body.data
-        data.reviewer = req.id
-        const com = await Comment.create(data)
-        const info = await Info.findOne({ username: req.id })
+    // async function remove() {
+    //     await Comment.remove()
+    //     await Reply.remove()
+    // }
+    // remove()
 
-        //关联
-        com.reviewer = info._id
-        com.auther = data.auther
+    // 回复接口
+    router.post(
+        '/create',
+        authMiddleware(),
+        modelMiddleware(),
+        async (req, res) => {
+            // 前端验证数据。
+            const data = req.body.data
+            data.reviewer = req.id
+            const com = await req.model.create(data)
+            const reviewerInfo = await Info.findOne({ username: req.id })
+            const autherInfo = await Info.findOne({ username: data.auther })
 
-        com.save()
+            //关联
+            com.reviewer = reviewerInfo._id
+            com.auther = autherInfo._id
 
-        res.send({
-            status: 200,
-            message: '评论创建ok'
-        })
-    })
+            com.save()
+
+            res.send({
+                status: 200,
+                message: '评论创建ok'
+            })
+        }
+    )
 
     // 获取评论
-    router.get('/admin/comment/find', async (req, res) => {
+    router.get('/find', modelMiddleware(), async (req, res) => {
         const params = req.query
-        console.log(params)
+        let condition
+        if (req.params.model === 'comment') {
+            condition = {
+                // auther: params.auther,
+                // type: params.type,
+                moodId: params.moodId
+            }
+        } else if (req.params.model === 'comment-reply') {
+            condition = {
+                commentId: params.commentId
+            }
+        }
 
-        const coms = await Comment.find({
-            auther: params.auther,
-            type: params.type
-        }).populate('reviewer')
+        const coms = await req.model
+            .find(condition)
+            .populate('reviewer')
+            .populate('auther')
 
         res.send({
             status: 200,
             message: coms
         })
     })
-    app.use(router)
+
+    app.use('/admin/discuss/:model', router) //动态路由。
 }

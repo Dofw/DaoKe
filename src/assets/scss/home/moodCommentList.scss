@@ -1,4 +1,6 @@
 .mood-comment-list {
+    width: 100%;
+    padding: 10px;
     > div {
         margin-bottom: 10px;
         &.mood-comment--btn {
@@ -8,9 +10,45 @@
                 }
             }
         }
-        &.moode-comment-editor {
+        &.moode-comment--editor {
         }
-        &.mood-comment-show {
+        &.mood-comment--show {
+            .el-card {
+                .comment-structure {
+                    margin-bottom: 10px;
+                    &-content {
+                        margin-bottom: 5px;
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            margin-right: 10px;
+                            border: 2px solid burlywood;
+                            border-radius: 50%;
+                        }
+                        > div {
+                            p {
+                                margin: 0;
+                                &:nth-of-type(1) {
+                                    margin-bottom: 5px;
+                                    font-size: large;
+                                    font-weight: 500;
+                                }
+                            }
+                            div {
+                                margin-bottom: 5px;
+                            }
+                        }
+                    }
+                    &-reply {
+                        margin-left: 50px;
+                        p {
+                            margin-bottom: 0;
+                            color: burlywood;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
         }
     }
 
