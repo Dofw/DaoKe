@@ -1,13 +1,28 @@
 <template>
     <div class="nav--link d-flex align-items-end ">
-        <router-link custom v-slot="{ navigate }" to="/home/mood"
-            ><span @click="navigate">Home</span>
+        <router-link custom v-slot="{ navigate, isExactActive }" to="/home/mood"
+            ><span :class="{ 'exact-active': isExactActive }" @click="navigate"
+                >Home</span
+            >
         </router-link>
-        <router-link custom v-slot="{ navigate }" to="/account/login"
-            ><span @click="navigate">login</span>
+        <router-link
+            custom
+            v-slot="{ navigate, isExactActive }"
+            to="/account/login"
+            ><span :class="{ 'exact-active': isExactActive }" @click="navigate"
+                >Login</span
+            >
         </router-link>
-        <router-link custom v-slot="{ navigate }" to="/user/detail"
-            ><span class="flex-shrink-0" @click="navigate">user</span>
+        <router-link
+            custom
+            v-slot="{ navigate, isExactActive }"
+            to="/user/detail"
+            ><span
+                :class="{ 'exact-active': isExactActive }"
+                class="flex-shrink-0"
+                @click="navigate"
+                >User</span
+            >
         </router-link>
     </div>
 </template>
@@ -22,11 +37,25 @@ export default {}
         margin-right: 15px;
         padding: 0 5px;
 
-        border: 2px solid #fd7e14;
         border-radius: 5px;
         font-size: 1rem;
         font-weight: 700;
         cursor: pointer;
+        &:hover {
+            color: #eee;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        &.active {
+            color: #eee;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        &.exact-active {
+            color: #eee;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
     }
 }
 </style>

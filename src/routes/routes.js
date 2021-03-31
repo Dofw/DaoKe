@@ -10,7 +10,7 @@ import Regist from '../components/account/regist.vue'
 const routes = [
     {
         path: '/',
-        redirect: '/home'
+        redirect: '/home/mood'
     },
     {
         // 为个人中心。

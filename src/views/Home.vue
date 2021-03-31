@@ -1,24 +1,21 @@
 <template>
     <el-container class="my-container">
-        <el-header class="pt-2">
-            <el-row>
-                <!-- nav -->
-                <el-col class="d-flex" :span="7">
-                    <home-nav></home-nav>
-                </el-col>
+        <el-header class="pt-2" height="none">
+            <el-row :gutter="20">
                 <!-- logo -->
-                <el-col :span="10">
-                    <el-row type="flex" justify="center">
-                        <logo size="25px" class="flex-shrink-0" />
+                <el-col :span="7">
+                    <el-row type="flex">
+                        <logo size="25px" class="flex-shrink-1" />
                     </el-row>
                 </el-col>
+                <!-- nav -->
+                <el-col class="d-flex align-items-center" :span="12">
+                    <home-nav></home-nav>
+                </el-col>
+
                 <!-- userinfo -->
-                <el-col class="d-flex justify-content-end" :span="7">
-                    <home-user
-                        :isLogin="sessionRef"
-                        v-bind="userInfo"
-                        @logout="onhandle"
-                    ></home-user>
+                <el-col :span="5">
+                    <home-user></home-user>
                 </el-col>
             </el-row>
         </el-header>
@@ -35,9 +32,6 @@ import HomeUser from '@/components/home/homeUser.vue'
 import { reactive, ref } from 'vue'
 import $http from '@/axios/http.js'
 export default {
-    data() {
-        return {}
-    },
     components: {
         Logo,
         HomeNav,

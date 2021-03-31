@@ -27,9 +27,7 @@
                 <el-timeline-item
                     v-for="(item, index) in moodFilterRef"
                     :key="index"
-                    :color="item.color"
                     :timestamp="item.time"
-                    icon="el-icon-more"
                     type="success"
                     size="large"
                 >
@@ -63,7 +61,6 @@ export default {
 <style lang="scss" scope>
 .home__mood {
     padding: 20px;
-    border: 1px solid darkcyan;
     ul {
         li {
             margin-right: 10px;

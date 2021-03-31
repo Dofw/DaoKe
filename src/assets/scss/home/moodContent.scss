@@ -1,37 +1,75 @@
 .wrapper {
     width: 100%;
-    .mood-content--top {
-        > div {
-            margin-bottom: 5px;
-            font-family: sans-serif;
-            font-weight: 400;
-            font-size: 1rem;
-
-            span {
-                margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    > .el-row {
+        margin-bottom: 10px;
+    }
+    .mood-content-top {
+        .block {
+            width: 30px;
+            height: 30px;
+            img {
+                width: 100%;
             }
         }
-        > p {
-            background-color: darkorange;
-            border-radius: 5px;
-            padding: 5px;
+        span {
+            font-size: 0.9rem;
+            font-weight: 800;
         }
     }
-    .mood-content--center {
-        > div {
-            margin-right: 10px;
-            &.mood-img {
+    .mood-content-center {
+        p {
+            height: 100%;
+
+            padding: 10px;
+            margin: 0;
+
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .radio {
+            position: relative;
+            height: 150px;
+            .mood-img {
                 img {
-                    width: 60px;
-                    border-radius: 10px;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 150px;
+                    border-radius: 50%;
                     cursor: pointer;
+                    z-index: 90;
+                }
+                i {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 3rem;
+                    font-weight: 500;
+                    color: #fff;
+                    z-index: 100;
                 }
             }
-            &.mood-mp3 {
+            .mood-mp3 {
                 audio {
+                    position: absolute;
+                    left: 50%;
+                    top: 105%;
+                    transform: translate(-50%);
+
+                    width: 250px;
                     height: 40px;
-                    margin-right: 10px;
                     outline-style: none;
+                }
+                span {
+                    position: absolute;
+                    left: 50%;
+                    top: -30px;
+                    transform: translate(-50%);
                 }
             }
         }

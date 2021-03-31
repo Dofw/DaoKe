@@ -22,6 +22,11 @@ body {
     background-color: $purple;
     // background-color: $light;
     // background-color: $cyan;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.el-button {
+    outline: none !important;
 }
 
 a {
