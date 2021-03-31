@@ -65,7 +65,10 @@
                         </div>
 
                         <div class="comment-structure-reply ">
-                            <mood-comment-reply-list :com="com" />
+                            <mood-comment-reply-list
+                                :isCreate="isCreate"
+                                :com="com"
+                            />
                         </div>
                     </div>
                 </div>
@@ -120,7 +123,8 @@ export default {
 
         // 交互功能
         const comsData = ref([])
-        const repsData = ref({})
+        const repsData = ref({}) //该组件，并没有用到这个响应式数据。为了使用onReply
+        const isCreate = ref(true) // 为了，让onReply发送后，切换一次v-if。来达到子组件重新渲染的目的
         const body = {
             auther: props.auther, // mood的作者
             type: props.type, // mood类型
@@ -133,7 +137,7 @@ export default {
         }
 
         const interfaceObj = useCommentInterface()
-        const { onGetComs, onComment, onGetReps, onReply } = interfaceObj
+        const { onGetComs, onComment, onReply } = interfaceObj
 
         // 评论input组件触发的接受函数
         const onCreateCom = condition => {
@@ -142,28 +146,23 @@ export default {
         }
 
         // 回复input组件触发的接受函数
-        const onCreateRep = (condition, com) => {
-            console.log(com)
+        const onCreateRep = async (condition, com) => {
             let body = {
                 auther: com.reviewer.username,
                 tier: condition.tier,
                 content: condition.textarea,
-                commentId: props.com._id //耦合props属性。
+                commentId: com._id //耦合props属性。
             }
             // debugger
-            onReply(condition, body) // 如何创建后，让页面重新刷新呢。
+            await onReply(condition, body, repsData) // 如何创建后，让页面重新刷新呢。
+            isCreate.value = !isCreate.value
         }
 
         // 获取数据
         onMounted(async () => {
-            //$http错误的问题都集中在http中，如果入刑到这里，说明是成功的返回结果。
+            //$http错误的问题都集中在http中，如果进入到这里，说明是成功的返回结果。
             const coms = await onGetComs(params)
             comsData.value = coms.message
-            // // 根据coms，请求对应_id条件下的rep
-            // coms.message.forEach(async com => {
-            //     const rep = await onGetReps(com)
-            //     repsData.value[com._id] = rep.message
-            // })
         })
 
         return {
@@ -171,6 +170,7 @@ export default {
             isSwitch,
             onCreateCom,
             onCreateRep,
+            isCreate,
             comsData,
             repsData,
             ...useCommentShow()

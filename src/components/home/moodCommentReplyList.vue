@@ -29,13 +29,16 @@
 import useCommentInterface from '@/compositions/home/useCommentInterface.js'
 import MoodCommentInput from '@/components/home/moodCommentInput.vue'
 
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watchEffect } from 'vue'
 
 export default {
     props: {
         com: {
             type: Object,
             required: true
+        },
+        isCreate: {
+            type: Boolean
         }
     },
     setup(props, context) {
@@ -67,7 +70,7 @@ export default {
         // 子组件触发的接受函数
         const onCreate = async (condition, rep) => {
             let body = {
-                auther: rep.auther.username,
+                auther: rep.reviewer.username,
                 tier: 1,
                 content: condition.textarea,
                 commentId: props.com._id //耦合props属性。
@@ -86,6 +89,13 @@ export default {
             //     const rep = await onGetReps(com)
             //     repsData.value[com._id] = rep.message
             // })
+        })
+
+        // 父组件，增加了数据。props.isCreate变化。就执行。
+        watchEffect(async () => {
+            const isChange = props.isCreate
+            const reps = await onGetReps(props.com._id)
+            repsRef.value = reps.message
         })
 
         return {

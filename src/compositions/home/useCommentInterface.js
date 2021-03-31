@@ -4,6 +4,7 @@ export default function useCommentInterface() {
     //评论接口，新增
     const onComment = async (condition, body, comsRef) => {
         //获取数据，在异步中获取。setup函数执行一次。
+
         if (!condition.textarea) {
             //为空
             return false
@@ -13,7 +14,7 @@ export default function useCommentInterface() {
             data: body
         })
 
-        const coms = await onGetComs()
+        const coms = await onGetComs(body.moodId)
         comsRef.value = coms.message
     }
 
@@ -46,7 +47,7 @@ export default function useCommentInterface() {
     const onGetReps = async commentId => {
         const res = await $http.get('/admin/discuss/comment-reply/find', {
             params: {
-                commentId: commentId
+                commentId
             }
         })
         return res
