@@ -5,8 +5,7 @@ const Like = mongoose.model(
     new mongoose.Schema({
         count: {
             type: Number,
-            required: true,
-            default: 0
+            required: true
         },
         id: {
             // 回复 或 评论 或者 心情id。

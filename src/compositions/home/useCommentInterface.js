@@ -15,7 +15,6 @@ export default function useCommentInterface() {
         })
 
         const coms = await onGetComs({ moodId: body.moodId })
-        console.log(coms)
         comsRef.value = coms.message
     }
 
@@ -56,14 +55,14 @@ export default function useCommentInterface() {
 
     //创建count
     const onCreateOneRepCount = async data => {
-        const res = await $http.post('/admin/discuss/count/create', {
+        const res = await $http.post('/admin/count/like/create', {
             data
         })
         return res
     }
     //更新count
     const onUpdateOneRepCount = async data => {
-        const res = await $http.post('/admin/discuss/count/update', {
+        const res = await $http.post('/admin/count/like/update', {
             data
         })
         return res
@@ -71,7 +70,7 @@ export default function useCommentInterface() {
 
     //获取count
     const onGetOneRepCount = async id => {
-        const res = await $http.get('/admin/discuss/count/findOne', {
+        const res = await $http.get('/admin/count/like/findOne', {
             params: {
                 id
             }
