@@ -6,8 +6,6 @@ module.exports = app => {
     const modelMiddleware = require('../middleware/model.js')
 
     const Info = require('../mongodb/info.js')
-    const Comment = require('../mongodb/comment.js')
-    const Reply = require('../mongodb/comment-reply.js')
 
     const router = express.Router({ mergeParams: true })
 
@@ -15,6 +13,7 @@ module.exports = app => {
     //     await Comment.remove()
     //     await Reply.remove()
     // }
+
     // remove()
 
     // 回复接口

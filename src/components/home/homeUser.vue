@@ -1,6 +1,6 @@
 <template>
     <el-row type="flex" class="nav--user" justify="end" align="middle">
-        <el-col class="uologin" :span="11" v-if="!isSessionRef">
+        <el-col class="unlogin" :span="11" v-if="!isSessionRef">
             <router-link custom to="/account/login" v-slot="{ navigate }">
                 <div class=" block">
                     <el-button @click="navigate" type="primary" size="mini"
@@ -109,7 +109,7 @@ export default {
         let isExhibitionRef = ref(false)
 
         const onexist = () => {
-            sessionStorage.token = ''
+            sessionStorage.clear()
             isSessionRef.value = !!sessionStorage.token
         }
         const isShow = () => {
@@ -128,7 +128,10 @@ export default {
             const res = await $http.get('/admin/resource/user/findone')
             userInfo.value = res.message.info
         }
-        getUserInfo()
+        //存在token，才请求数据
+        if (isSessionRef.value) {
+            getUserInfo()
+        }
 
         return {
             onexist,

@@ -1,19 +1,34 @@
 <template>
     <div class="mood-comment-list ">
         <div class="mood-comment--btn">
-            <el-badge class="item">
+            <el-badge class="item" :value="0" :hidden="!!0">
                 <el-button size="mini">点赞</el-button>
             </el-badge>
-            <el-badge class="item" v-if="!isShow">
+            <el-badge
+                class="item"
+                :value="comsData.length"
+                :hidden="!!0"
+                type="success"
+                v-if="!isShow"
+            >
                 <el-button size="mini" @click="onTrigger">收起</el-button>
             </el-badge>
-            <el-badge class="item" v-else>
+            <el-badge
+                class="item"
+                :value="comsData.length"
+                :hidden="!!0"
+                type="success"
+                v-else
+            >
                 <el-button size="mini" @click="onTrigger">评论</el-button>
             </el-badge>
         </div>
 
         <div v-if="!isShow" class="mood-comment--editor d-flex">
-            <mood-comment-input @myclick="onCreateCom"></mood-comment-input>
+            <mood-comment-input
+                :isShow="false"
+                @myclick="onCreateCom"
+            ></mood-comment-input>
         </div>
         <div v-show="!isShow" class="mood-comment--show">
             <el-card
@@ -44,21 +59,31 @@
                                     }}
                                 </p>
                                 <p>{{ com.content }}</p>
-                                <div>
-                                    {{ com.time }}
-                                    <el-button
-                                        size="mini"
-                                        @click="onSwitch(index)"
-                                        >回复</el-button
+                                <div class="time-reply">
+                                    <span>
+                                        {{ com.time }}
+                                    </span>
+                                    <el-badge
+                                        class="item"
+                                        :value="0"
+                                        :hidden="!!0"
+                                        type="success"
                                     >
-                                    <el-button size="mini">点赞</el-button>
+                                        <el-button
+                                            size="mini"
+                                            @click="onSwitch(index)"
+                                            >回复</el-button
+                                        >
+                                    </el-badge>
                                 </div>
+
                                 <div
                                     v-if="isSwitch(index)"
-                                    class="mood-comment--editor d-flex"
+                                    class="comment-reply d-flex"
                                 >
                                     <mood-comment-input
                                         @myclick="onCreateRep($event, com)"
+                                        @cancel-reply="oncancelReply"
                                     ></mood-comment-input>
                                 </div>
                             </div>
@@ -120,9 +145,13 @@ export default {
                 }
             }
         })
+        const oncancelReply = () => {
+            switchRef.value = !switchRef.value
+        }
 
         // 交互功能
         const comsData = ref([])
+
         const repsData = ref({}) //该组件，并没有用到这个响应式数据。为了使用onReply
         const isCreate = ref(true) // 为了，让onReply发送后，切换一次v-if。来达到子组件重新渲染的目的
         const body = {
@@ -156,6 +185,7 @@ export default {
             // debugger
             await onReply(condition, body, repsData) // 如何创建后，让页面重新刷新呢。
             isCreate.value = !isCreate.value
+            switchRef.value = !switchRef.value
         }
 
         // 获取数据
@@ -173,7 +203,8 @@ export default {
             isCreate,
             comsData,
             repsData,
-            ...useCommentShow()
+            ...useCommentShow(),
+            oncancelReply
         }
     },
 

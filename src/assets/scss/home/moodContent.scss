@@ -1,3 +1,15 @@
+.home__mood {
+    padding: 20px;
+    ul {
+        li {
+            margin-right: 10px;
+            &.active {
+                color: darkorange;
+            }
+        }
+    }
+}
+
 .wrapper {
     width: 100%;
     border-radius: 10px;
@@ -18,6 +30,7 @@
             font-size: 0.9rem;
             font-weight: 800;
         }
+        margin-bottom: 10px;
     }
     .mood-content-center {
         p {
@@ -31,28 +44,28 @@
         }
         .radio {
             position: relative;
-            height: 150px;
+            height: 80px;
             .mood-img {
                 img {
                     position: absolute;
-                    left: 50%;
+                    left: 10px;
                     top: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 150px;
+                    transform: translateY(-50%);
+                    width: 80px;
                     border-radius: 50%;
                     cursor: pointer;
                     z-index: 90;
                 }
-                i {
-                    position: absolute;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                    font-size: 3rem;
-                    font-weight: 500;
-                    color: #fff;
-                    z-index: 100;
-                }
+                // i {
+                //     position: absolute;
+                //     left: 50%;
+                //     top: 50%;
+                //     transform: translate(-50%, -50%);
+                //     font-size: 3rem;
+                //     font-weight: 500;
+                //     color: #fff;
+                //     z-index: 100;
+                // }
             }
             .mood-mp3 {
                 // 这里也要定位。为了让span相对于radio定位，没有设置
@@ -62,126 +75,16 @@
                 > span {
                     // w
                     position: absolute;
-                    left: 50%;
-                    top: -30px;
-                    transform: translate(-50%);
+                    left: 60%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
                 }
-                .controls {
-                    @mixin flexCenterStyle {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                    @mixin audioBtnStyle {
-                        > div {
-                            @include flexCenterStyle;
-                            width: 20px;
-                            height: 20px;
-
-                            i {
-                                font-size: 1.3rem;
-                            }
-                            &:hover {
-                                border-radius: 50%;
-                                background-color: rgba(0, 0, 0, 0.1);
-                            }
-                        }
-                    }
-                    width: 250px;
-                    padding: 10px 10px 5px 10px;
-
+                .audio__control {
                     position: absolute;
                     left: 50%;
                     top: 105%;
                     transform: translate(-50%);
                     z-index: 90;
-
-                    // 内部样式
-                    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-                    border-radius: 10px;
-                    background-color: rgba(255, 255, 255, 1);
-                    > .el-col {
-                        &:nth-of-type(1) {
-                            .audio-progress {
-                                position: relative;
-                                width: 100%;
-
-                                span {
-                                    position: absolute;
-                                    left: 0;
-                                    top: -3px;
-                                    transform: translate(-50%);
-
-                                    width: 8px;
-                                    height: 8px;
-                                    margin: 0;
-                                    background-color: green;
-                                    border-radius: 50%;
-                                }
-                            }
-                        }
-                        &:nth-of-type(3) {
-                            @include flexCenterStyle;
-                            > div {
-                                span {
-                                    color: #000;
-                                }
-                            }
-                        }
-                        &:nth-of-type(4) {
-                            &::after {
-                                content: '';
-                                display: block;
-                                clear: both;
-                            }
-                            &:hover {
-                                .voice-size {
-                                    width: 50px;
-                                    opacity: 1;
-                                    transition: all 0.5s;
-                                }
-                            }
-
-                            .voice-size {
-                                position: relative;
-                                top: 50%;
-                                transform: translateY(-50%);
-                                float: left;
-                                width: 0px;
-                                transition: all 0.5s;
-                                opacity: 0;
-                                span {
-                                    position: absolute;
-                                    left: 50%;
-                                    top: -3px;
-                                    transform: translate(-50%);
-                                    width: 8px;
-                                    height: 8px;
-                                    margin: 0;
-                                    background-color: green;
-                                    border-radius: 50%;
-                                }
-                            }
-                            .icon-voice {
-                                float: right;
-                                width: 20px;
-                                height: 20px;
-
-                                i {
-                                    font-size: 1.3rem;
-                                }
-                                &:hover {
-                                    border-radius: 50%;
-                                    background-color: rgba(0, 0, 0, 0.1);
-                                }
-                            }
-                        }
-
-                        &:nth-of-type(2),
-                        &:nth-of-type(5) {
-                            @include audioBtnStyle;
-                        }
-                    }
                 }
             }
         }

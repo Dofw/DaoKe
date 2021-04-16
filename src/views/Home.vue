@@ -29,8 +29,6 @@
 import Logo from '@/components/common/logo.vue'
 import HomeNav from '@/components/home/homeNav.vue'
 import HomeUser from '@/components/home/homeUser.vue'
-import { reactive, ref } from 'vue'
-import $http from '@/axios/http.js'
 export default {
     components: {
         Logo,
@@ -38,23 +36,7 @@ export default {
         HomeUser
     },
     setup() {
-        let userInfo = ref({})
-        let sessionRef = ref(!!sessionStorage.token)
-
-        const onhandle = () => {
-            sessionStorage.token = ''
-            sessionRef.value = !!sessionStorage.token
-        }
-
-        $http.get('/admin/resource/user/findone').then(res => {
-            userInfo.value = res.message.info
-        })
-
-        return {
-            userInfo,
-            sessionRef,
-            onhandle
-        }
+        return {}
     }
 }
 </script>

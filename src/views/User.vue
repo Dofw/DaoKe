@@ -8,9 +8,7 @@
                 <div>
                     <left-user />
                 </div>
-                <div>
-                    <left-list />
-                </div>
+                <div></div>
             </div>
             <div class="my-content col ">
                 <router-view></router-view>
@@ -22,13 +20,11 @@
 <script>
 import logo from '../components/common/logo.vue'
 import leftUser from '../components/user/left/leftUser.vue'
-import leftList from '../components/user/left/leftList.vue'
 
 export default {
     components: {
         logo,
-        leftUser,
-        leftList
+        leftUser
     }
 }
 </script>

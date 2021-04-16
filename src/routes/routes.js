@@ -1,8 +1,7 @@
 import User from '../views/User.vue'
 import Home from '@/views/Home.vue'
-import HomeMood from '@/views/HomeMood.vue'
+import MoodContent from '@/components/home/moodContent.vue'
 import Editor from '../components/user/editor.vue'
-import Chat from '../components/user/chat.vue'
 import Account from '../views/Account.vue'
 import Login from '../components/account/login.vue'
 import Regist from '../components/account/regist.vue'
@@ -21,10 +20,6 @@ const routes = [
             {
                 path: 'detail',
                 component: Editor
-            },
-            {
-                path: 'chat',
-                component: Chat
             }
         ],
         meta: {
@@ -52,16 +47,8 @@ const routes = [
         children: [
             {
                 path: 'mood',
-                component: HomeMood
+                component: MoodContent
             }
-            // {
-            //     path: 'todo',
-            //     component: Mood
-            // },
-            // {
-            //     path: 'chat',
-            //     component: Mood
-            // }
         ]
     }
 ]

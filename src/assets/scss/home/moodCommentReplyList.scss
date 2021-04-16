@@ -3,7 +3,16 @@
     .comment-reply-item {
         // border-bottom: 1px solid black;
         > div {
-            margin-bottom: 5px;
+            margin-bottom: 7px;
+            border-bottom: 1px solid black;
+        }
+        span.reply-color {
+            color: cadetblue;
+        }
+        .time {
+            font-size: 0.8rem;
+            color: #999 !important;
+            margin-right: 10px;
         }
     }
 }

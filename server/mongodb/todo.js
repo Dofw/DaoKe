@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 
-// 编辑心情 editor-mood
-
 const Todo = mongoose.model(
     'Todo',
     mongoose.Schema({
