@@ -1,10 +1,11 @@
-import User from '../views/User.vue'
+import User from '@/views/User.vue'
 import Home from '@/views/Home.vue'
 import MoodContent from '@/components/home/moodContent.vue'
-import Editor from '../components/user/editor.vue'
-import Account from '../views/Account.vue'
-import Login from '../components/account/login.vue'
-import Regist from '../components/account/regist.vue'
+import MoodEditor from '@/components/user/right/MoodEditor.vue'
+import Moodlist from '@/components/user/right/MoodList.vue'
+import Account from '@/views/Account.vue'
+import Login from '@/components/account/login.vue'
+import Regist from '@/components/account/regist.vue'
 
 const routes = [
     {
@@ -15,11 +16,15 @@ const routes = [
         // 为个人中心。
         path: '/user',
         component: User,
-        redirect: '/user/detail',
+        redirect: '/user/mood-editor',
         children: [
             {
-                path: 'detail',
-                component: Editor
+                path: 'mood-editor',
+                component: MoodEditor
+            },
+            {
+                path: 'article',
+                component: Moodlist
             }
         ],
         meta: {

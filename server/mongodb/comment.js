@@ -32,7 +32,7 @@ const Comment = mongoose.model(
         },
         time: {
             type: Date,
-            default: new Date(Date.now())
+            default: Date.now()
         }
     })
 )

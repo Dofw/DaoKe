@@ -18,7 +18,7 @@ router.beforeEach((to, from, next) => {
             ElMessage({
                 message: '请登录'
             })
-            // next('/account/login')
+            next('/account/login')
         }
     } else {
         next()

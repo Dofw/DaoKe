@@ -60,7 +60,7 @@
                         @mousedown="onmousedownvoice"
                     ></span>
                 </div>
-                <div class="icon-voice">
+                <div class="icon-voice" @click="onchangevolume">
                     <i
                         class="el-icon-turn-off-microphone"
                         v-if="audioDataRef.isSilence"
@@ -91,6 +91,7 @@ export default {
         const audioDataRef = ref({
             progressPer: 0,
             voicePer: 50,
+            voiceDefault: 50,
             isSilence: false,
             isPlay: false,
             currentTime: '',
@@ -150,6 +151,19 @@ export default {
             audioDom.volume = currentVolume //0--1之间
             audioDataRef.value.voicePer = currentVolume * 100
         }
+        const onchangevolume = () => {
+            //设置声音
+            if (audioDataRef.value.isSilence) {
+                //静音-->default
+                audioDataRef.value.voicePer = audioDataRef.value.voiceDefault
+            } else {
+                audioDataRef.value.voicePer = 0
+            }
+
+            audioDom.volume = audioDataRef.value.voicePer / 100
+
+            audioDataRef.value.isSilence = !audioDataRef.value.isSilence
+        }
 
         /**
          * progress点击事件
@@ -200,6 +214,9 @@ export default {
         const ondurationchange = () => {
             audioDataRef.value.currentTime = setTime(audioDom.currentTime)
             audioDataRef.value.totleTime = setTime(audioDom.duration)
+
+            //声音设置。
+            audioDom.volume = audioDataRef.value.voicePer / 100
         }
         /**
          * 监控时间变化
@@ -247,6 +264,7 @@ export default {
             ondurationchange,
             onprogressclick,
             onmousedownvoice,
+            onchangevolume,
             onvoiceclick
         }
     }

@@ -22,13 +22,21 @@ const Mood = mongoose.model(
             type: String,
             default: null
         },
+        mp3Name: {
+            type: String,
+            default: null
+        },
         pictureUrl: {
+            type: String,
+            default: null
+        },
+        pictureName: {
             type: String,
             default: null
         },
         time: {
             type: Date,
-            default: new Date(Date.now())
+            default: Date.now()
         }
     })
 )

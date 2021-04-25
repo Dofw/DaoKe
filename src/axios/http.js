@@ -38,8 +38,12 @@ $http.interceptors.response.use(
                     ElMessage({
                         message: '请登录'
                     })
-                    // alert(err.response.data.message)
                     router.push('/account/login')
+                    break
+                case 402: //前后端约定，402为输入为空。
+                    ElMessage({
+                        message: err.response.data.message
+                    })
                     break
             }
         }

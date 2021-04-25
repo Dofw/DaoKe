@@ -18,7 +18,7 @@ require('./mongodb/connect.js')()
 require('./router/adminUpload.js')(app)
 require('./router/adminResourceCRUD.js')(app)
 require('./router/adminAccount.js')(app)
-require('./router/test.js')(app)
+require('./router/remove.js')(app)
 require('./router/comment-router.js')(app)
 require('./router/count.js')(app)
 

@@ -35,7 +35,17 @@
                 <div class="top">
                     <p>
                         <i class="el-icon-s-home"></i>
-                        <span>进入主页</span>
+                        <router-link
+                            custom
+                            v-slot="{ navigate, isExactActive }"
+                            to="/user/mood-editor"
+                            ><span
+                                :class="{ 'exact-active': isExactActive }"
+                                class="flex-shrink-0"
+                                @click="navigate"
+                                >个人中心</span
+                            >
+                        </router-link>
                     </p>
                     <div
                         class="d-flex justify-content-center align-items-center"
@@ -69,15 +79,17 @@
                     <ul>
                         <li>
                             <i class="el-icon-user-solid"></i>
-                            <span>
-                                个人中心
-                            </span>
-                        </li>
-                        <li>
-                            <i class="el-icon-s-tools"></i>
-                            <span>
-                                个人设置
-                            </span>
+
+                            <router-link
+                                custom
+                                v-slot="{ navigate, isExactActive }"
+                                to="/account/regist"
+                                ><span
+                                    :class="{ 'exact-active': isExactActive }"
+                                    @click="navigate"
+                                    >注册页面</span
+                                >
+                            </router-link>
                         </li>
                     </ul>
                 </div>

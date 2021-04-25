@@ -1,19 +1,22 @@
 <template>
     <div class="user d-flex align-items-center flex-wrap ">
         <img v-if="formInfo.photoUrl" :src="formInfo.photoUrl" alt="" />
-        <div class="photo" v-else></div>
+        <img v-else src="@/assets/images/you1.jpg" alt="" />
         <div class="me d-flex align-self-end flex-grow-1 ">
-            <span class="flex-grow-1 ml-3">{{ formInfo.nickname }}</span>
+            <span class="d-flex align-items-center flex-grow-1 ml-3">{{
+                formInfo.nickname
+            }}</span>
             <div
                 class="d-flex justify-content-center align-content-around flex-wrap"
             >
-                <router-link custom v-slot="{ navigate }" to="/home/mood"
-                    ><i @click="navigate">home</i>
-                </router-link>
-                <i class="iconfont icon-bianji2 mr-2">注销 </i>
-                <i class="iconfont icon-bianji2 mr-2" @click="show">修改</i>
+                <i class="iconfont icon-bianji2 mr-2" @click="onLogout"
+                    >注销
+                </i>
+                <i class="iconfont icon-bianji2 mr-2" @click="changeshow"
+                    >修改</i
+                >
             </div>
-            <form action="" id="formInfo">
+            <form :class="{ active: isShow }" id="formInfo">
                 <div class="nickname" data-field-container="nickname">
                     <span>nickName</span>
                     <input
@@ -36,9 +39,14 @@
                         alt=""
                         @click="uploadPre"
                     />
+                    <img id="preImg" alt="" name="abc" @click="uploadPre" />
 
                     <div @click="uploadPre">
-                        <i id="preDiv" class="iconfont icon-shangchuan"></i>
+                        <i
+                            v-if="!formInfo.photoUrl"
+                            id="preDiv"
+                            class="iconfont icon-shangchuan"
+                        ></i>
                     </div>
                     <input
                         type="file"
@@ -115,7 +123,7 @@
                 </div>
                 <div class="submit">
                     <button type="text" @click="formInfoSubmit">
-                        提交
+                        保存
                     </button>
                     <button type="text" @click="unShow">
                         取消

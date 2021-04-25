@@ -13,17 +13,6 @@
                 >Login</span
             >
         </router-link>
-        <router-link
-            custom
-            v-slot="{ navigate, isExactActive }"
-            to="/user/detail"
-            ><span
-                :class="{ 'exact-active': isExactActive }"
-                class="flex-shrink-0"
-                @click="navigate"
-                >User</span
-            >
-        </router-link>
     </div>
 </template>
 

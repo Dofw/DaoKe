@@ -1,7 +1,11 @@
 <template>
     <div class="comment-reply-list">
         <template v-for="rep in repsRef" :key="rep._id">
-            <MoodCommentReplyItem :rep="rep" :com="com" />
+            <MoodCommentReplyItem
+                :rep="rep"
+                :com="com"
+                @update-refs="updateRefs"
+            />
         </template>
     </div>
 </template>
@@ -45,8 +49,14 @@ export default {
             repsRef.value = reps.message
         })
 
+        const updateRefs = async () => {
+            const reps = await onGetReps(props.com._id)
+            repsRef.value = reps.message
+        }
+
         return {
-            repsRef
+            repsRef,
+            updateRefs
         }
     },
     components: {

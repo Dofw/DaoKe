@@ -26,7 +26,7 @@
             <div class="wrapper">
                 <el-timeline>
                     <el-timeline-item
-                        v-for="(item, index) in moodFilterRef"
+                        v-for="(item, index) in pageDataRef"
                         :key="index"
                         :timestamp="item.time"
                         type="success"
@@ -89,7 +89,11 @@
                                             class="mood-mp3 "
                                             v-if="item.mp3Url"
                                         >
-                                            <span>音乐名称1</span>
+                                            <span>{{
+                                                item.mp3Name
+                                                    ? item.mp3Name
+                                                    : '无'
+                                            }}</span>
                                             <div class="audio__control">
                                                 <audio-control
                                                     :mp3Url="item.mp3Url"
@@ -113,6 +117,19 @@
                 </el-timeline>
             </div>
         </div>
+        <div class="pagination d-flex justify-content-center ">
+            <el-pagination
+                :hide-on-single-page="paginationRef.hide"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="paginationRef.currentPage"
+                :page-sizes="paginationRef.pageSizes"
+                :page-size="paginationRef.pageSize"
+                layout="sizes, prev, pager, next, jumper"
+                :total="paginationRef.total"
+            >
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -120,15 +137,20 @@
 import MoodCommentList from '@/components/home/moodCommentList.vue'
 import AudioControl from '@/components/home/audioControl.vue'
 import useGetData from '@/compositions/home/useGetData.js'
+import usePaginationData from '@/compositions/home/usePaginationData.js'
 import useFilterData from '@/compositions/home/useFilterData.js'
 
 export default {
     setup() {
         const obj = useGetData()
+        const { filterRef, onchangeFilter, moodFilterRef } = useFilterData(
+            obj.moodDataRef
+        )
 
         return {
-            ...obj,
-            ...useFilterData(obj.moodDataRef)
+            filterRef,
+            onchangeFilter,
+            ...usePaginationData(moodFilterRef)
         }
     },
     components: {

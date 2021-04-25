@@ -35,13 +35,6 @@ UserSchema.virtual('info', {
     justOne: true
 })
 
-UserSchema.virtual('todo', {
-    ref: 'Todo',
-    localField: 'username',
-    foreignField: 'todo',
-    justOne: true
-})
-
 const User = mongoose.model('User', UserSchema)
 
 module.exports = User

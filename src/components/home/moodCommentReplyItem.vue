@@ -68,19 +68,10 @@ export default {
          * 交互功能
          */
         const repsRef = ref([])
-        //增加评论，watch，更新
-        watch(repsRef)
-
         const RepCountRef = ref(0)
         // 发送数据
-        const interfaceObj = useCommentInterface()
-        const {
-            onGetReps,
-            onReply,
-            onCreateOneRepCount,
-            onUpdateOneRepCount,
-            onGetOneRepCount
-        } = interfaceObj
+
+        const { onReply, countCU, onGetOneRepCount } = useCommentInterface()
 
         // 子组件触发的接受函数
         const onCreate = async (condition, rep) => {
@@ -94,53 +85,23 @@ export default {
                 content: condition.textarea,
                 commentId: props.com._id //耦合props属性。
             }
-            await onReply(condition, body, repsRef)
+            await onReply(condition, body, repsRef) // 这里repsRef是因为交互函数中给了参数。
 
-            const reps = await onGetReps(props.com._id)
-            repsRef.value = reps.message
+            context.emit('update-refs')
 
             const count = await countCU(rep._id)
             RepCountRef.value = count // 改变count
             switchRef.value = !switchRef.value // 回复完，直接切换。
         }
 
-        /**
-         * count的创建和update封装函数。
-         */
-        async function countCU(id) {
-            let count = await onGetOneRepCount(id) //先获取。
-            console.log(typeof count.message, count.message === null)
-
-            if (count.message === null) {
-                console.log('create')
-                await onCreateOneRepCount({
-                    // 创建
-                    id: id,
-                    count: 1
-                })
-            } else {
-                console.log('update')
-                await onUpdateOneRepCount({
-                    // 更新
-                    id: id,
-                    count: ++count.message.count
-                })
-            }
-            const num = await onGetOneRepCount(id) //先获取。
-
-            return num.message.count
-        }
-
         // 获取数据
         onMounted(async () => {
             const count = await onGetOneRepCount(props.rep._id)
             let num
-            if (typeof count.message === 'object' && count.message !== null) {
-                console.log(count.message)
-                num = count.message.count
-            } else if (count.meaasge === null) {
-                console.log(count.message)
+            if (count.message === null) {
                 num = null
+            } else {
+                num = count.message.count
             }
             RepCountRef.value = num
         })

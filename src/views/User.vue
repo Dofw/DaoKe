@@ -8,7 +8,9 @@
                 <div>
                     <left-user />
                 </div>
-                <div></div>
+                <div>
+                    <left-nav />
+                </div>
             </div>
             <div class="my-content col ">
                 <router-view></router-view>
@@ -18,17 +20,19 @@
 </template>
 
 <script>
-import logo from '../components/common/logo.vue'
-import leftUser from '../components/user/left/leftUser.vue'
+import logo from '@/components/common/logo.vue'
+import LeftNav from '@/components/user/left/leftNav.vue'
+import leftUser from '@/components/user/left/leftUser.vue'
 
 export default {
     components: {
         logo,
-        leftUser
+        leftUser,
+        LeftNav
     }
 }
 </script>
 
 <style lang="scss">
-@import '../assets/scss/user/user.scss';
+@import '@/assets/scss/user/user.scss';
 </style>

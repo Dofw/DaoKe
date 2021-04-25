@@ -45,13 +45,15 @@ import { ref } from 'vue'
 import router from '@/routes/index.js'
 import useLoginValidatorInstance from '@/compositions/account/useLoginValidatorInstance.js'
 import $http from '@/axios/http.js'
+import { ElMessage } from 'element-plus'
 
 export default {
     setup() {
         const validatorInstanceRef = ref(null) //初始化，响应式验证实例对象。
         useLoginValidatorInstance(validatorInstanceRef) // 通过onMounted,生成一个instance实例赋值给validator...
         // button-注册提交函数。
-        const onLogin = e => {
+        const onLogin = function(e) {
+            console.log(this)
             e.preventDefault()
             const validator = validatorInstanceRef.value
             const formData = validator.getFormData()
@@ -67,15 +69,20 @@ export default {
                         data: data
                     })
                     .then(res => {
-                        console.log(res)
-                        if (res.token) {
-                            sessionStorage.token = res.token
-                        }
-                        alert('登录成功')
+                        sessionStorage.token = res.token
+                        ElMessage({
+                            type: 'success',
+                            message: '登录成功!'
+                        })
                         router.push('/home/mood')
                     })
             } else {
                 validator.setStatus()
+                console.log(this)
+                ElMessage({
+                    type: 'danger',
+                    message: '信息错误!'
+                })
             }
         }
         return {

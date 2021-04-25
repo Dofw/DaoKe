@@ -45,5 +45,13 @@ export default {
 .my-container {
     width: 960px;
     margin: 0 auto;
+    .pagination {
+        padding: 20px;
+        .el-pagination {
+            span {
+                color: #999;
+            }
+        }
+    }
 }
 </style>

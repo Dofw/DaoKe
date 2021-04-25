@@ -1,10 +1,12 @@
 .home__mood {
     padding: 20px;
-    ul {
-        li {
-            margin-right: 10px;
-            &.active {
-                color: darkorange;
+    .home--filter {
+        > ul {
+            li {
+                margin-right: 10px;
+                &.active {
+                    color: darkorange;
+                }
             }
         }
     }
@@ -52,20 +54,11 @@
                     top: 50%;
                     transform: translateY(-50%);
                     width: 80px;
+                    height: 80px;
                     border-radius: 50%;
                     cursor: pointer;
                     z-index: 90;
                 }
-                // i {
-                //     position: absolute;
-                //     left: 50%;
-                //     top: 50%;
-                //     transform: translate(-50%, -50%);
-                //     font-size: 3rem;
-                //     font-weight: 500;
-                //     color: #fff;
-                //     z-index: 100;
-                // }
             }
             .mood-mp3 {
                 // 这里也要定位。为了让span相对于radio定位，没有设置
@@ -87,6 +80,15 @@
                     z-index: 90;
                 }
             }
+        }
+    }
+}
+
+.pagination {
+    padding: 20px;
+    .el-pagination {
+        span {
+            color: #999;
         }
     }
 }

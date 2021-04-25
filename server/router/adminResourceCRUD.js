@@ -5,21 +5,8 @@ module.exports = app => {
         mergeParams: true // 将父级参数，共享到子集中。
     })
     const Info = require('../mongodb/info.js')
-    const Info1 = require('../mongodb/mood.js')
-    const Info2 = require('../mongodb/user.js')
-    const Info3 = require('../mongodb/comment.js')
     const authMiddleware = require('../middleware/auth.js')
     const modelMiddleware = require('../middleware/model.js')
-    // const User = require('../mongodb/accountUser.js')
-
-    // async function remove() {
-    //     await Info.remove()
-    //     await Info1.remove()
-    //     await Info2.remove()
-    //     await Info3.remove()
-    //     console.log(111111)
-    // }
-    // remove()
 
     //create
     router.post(
@@ -48,7 +35,9 @@ module.exports = app => {
                     message: req.params.model + '保存成功'
                 })
             } catch (error) {
-                res.status(401).send({ message: req.params.model + '创建失败' })
+                res.status(402).send({
+                    message: req.params.model + '不能为空！'
+                })
             }
         }
     )
@@ -75,7 +64,6 @@ module.exports = app => {
                     .findOne({ _id: req.id })
                     .populate('info')
                     .populate('mood')
-                    .populate('todo')
                     .lean()
             } else {
                 source = await req.model

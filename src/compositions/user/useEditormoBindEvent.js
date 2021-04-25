@@ -1,17 +1,11 @@
 import myFormData from '@/utils/myFormData.js'
 import $http from '@/axios/http.js'
+import { ElMessage } from 'element-plus'
 
 export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
     const UrlRef = {
         mp3: mp3UrlRef,
         picture: pictureUrlRef
-    }
-    // mood 事件函数
-    const unfoldArea = e => {
-        e.currentTarget.classList.add('active')
-    }
-    const shrinkArea = e => {
-        e.currentTarget.classList.remove('active')
     }
 
     // 通过span标签点击事件，控制上传
@@ -23,12 +17,21 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
     }
 
     // btn提交事件,真正上传。
-    const submit = async () => {
+    const submit = async function() {
+        console.log(this)
         const formDom = document.getElementsByClassName('editormood')[0]
+        const moodDom = document.getElementById('mood')
+        // 空值阻止发送请求
+        if (!moodDom.value) {
+            ElMessage({
+                message: 'mood不能为空'
+            })
+            return false
+        }
         // 2.1 获取data
         const datas = getData(formDom)
         const fileData = getFileData(datas)
-        // 2.2 发送请求
+        // 2.2 真正的上传请求
         const res = await requestAll(fileData)
         // 收集响上传失败的信息
         const newRes = res.filter(response => {
@@ -38,9 +41,11 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
             // 错误信息提示：
             let msg = ''
             newRes.forEach(response => {
-                msg += response.msg
+                msg += response.message
             })
-            alert(msg)
+            ElMessage({
+                message: msg
+            })
         } else {
             // 提示上传成功
             // 展示服务器返回的数据。
@@ -49,17 +54,22 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
             res.forEach(response => {
                 UrlRef[response.fieldname].value = response.url // 策略模式
                 moodData[`${response.fieldname}Url`] = response.url
+                moodData[`${response.fieldname}Name`] = response.filename
             })
 
             // 上传数据。
-            console.log(moodData)
-            $http
+            await $http
                 .post('/admin/resource/mood/create', {
                     data: moodData
                 })
                 .then(res => {
-                    alert(res.status + 'editormood成功create')
+                    ElMessage({
+                        type: 'success',
+                        message: res.status + '创建成功'
+                    })
                 })
+            // 让mood变为空，防止无限次提交
+            moodDom.value = ''
         }
 
         // 2.3 将mood数据回复最初展示。
@@ -69,8 +79,6 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
     return {
         mp3Span,
         pictureSpan,
-        unfoldArea,
-        shrinkArea,
         submit
     }
 }

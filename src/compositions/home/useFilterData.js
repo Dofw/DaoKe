@@ -1,5 +1,22 @@
 import { ref, computed } from 'vue'
 
+// 筛选的，策略模式
+const strategy = {
+    music: originalDataRef => {
+        return originalDataRef.value.filter(item => {
+            return !!item.mp3Url
+        })
+    },
+    all: originalDataRef => {
+        return originalDataRef.value
+    },
+    nomusic: originalDataRef => {
+        return originalDataRef.value.filter(item => {
+            return !item.mp3Url
+        })
+    }
+}
+
 export default function useFilterData(dataRef) {
     // 筛选方式初始化
     const filterRef = ref('all')
@@ -12,19 +29,10 @@ export default function useFilterData(dataRef) {
 
     const moodFilterRef = computed({
         get() {
-            //此部分，可以封装utils
             let data
-            if (filterRef.value === 'music') {
-                data = dataRef.value.filter(item => {
-                    return !!item.mp3Url
-                })
-            } else if (filterRef.value === 'all') {
-                data = dataRef.value
-            } else if (filterRef.value === 'nomusic') {
-                data = dataRef.value.filter(item => {
-                    return !item.mp3Url
-                })
-            }
+
+            data = strategy[filterRef.value](dataRef)
+
             return data
         }
     })
