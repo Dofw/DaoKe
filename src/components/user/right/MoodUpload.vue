@@ -35,7 +35,15 @@
             </div>
             <div class="resMusic d-flex">
                 <img :src="pictureUrl" alt="" v-if="pictureUrl" />
-                <img src="@/assets/images/vue1.jpg" alt="" v-else />
+                <div class="avatar-default" v-else>
+                    <el-avatar
+                        :size="100"
+                        fit="cover"
+                        icon="el-icon-picture"
+                    ></el-avatar>
+                </div>
+
+                <!-- <img src="@/assets/images/vue1.jpg" alt="" v-else /> -->
                 <audio :src="mp3Url" controls="controls"></audio>
             </div>
             <div class="btn">
@@ -65,5 +73,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/user/editormood.scss';
+@import '@/assets/scss/user/moodUpload.scss';
 </style>

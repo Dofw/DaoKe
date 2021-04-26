@@ -28,7 +28,7 @@
                     <el-timeline-item
                         v-for="(item, index) in pageDataRef"
                         :key="index"
-                        :timestamp="item.time"
+                        :timestamp="timeRef(item.time)"
                         type="success"
                         size="large"
                     >
@@ -40,15 +40,11 @@
                                 align="middle"
                             >
                                 <el-col :span="1.5">
-                                    <div class="block">
+                                    <div class="block ">
                                         <el-avatar
                                             :size="30"
                                             fit="cover"
-                                            :src="
-                                                item.info.photoUrl
-                                                    ? item.info.photoUrl
-                                                    : ''
-                                            "
+                                            :src="item.info.photoUrl"
                                             icon="el-icon-user-solid"
                                         ></el-avatar>
                                     </div>
@@ -139,6 +135,7 @@ import AudioControl from '@/components/home/audioControl.vue'
 import useGetData from '@/compositions/home/useGetData.js'
 import usePaginationData from '@/compositions/home/usePaginationData.js'
 import useFilterData from '@/compositions/home/useFilterData.js'
+import useTimeFormat from '@/compositions/useTimeFormat.js'
 
 export default {
     setup() {
@@ -150,7 +147,8 @@ export default {
         return {
             filterRef,
             onchangeFilter,
-            ...usePaginationData(moodFilterRef)
+            ...usePaginationData(moodFilterRef),
+            ...useTimeFormat()
         }
     },
     components: {

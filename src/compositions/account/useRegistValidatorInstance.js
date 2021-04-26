@@ -20,7 +20,7 @@ export default function useValidatorInstance(instance) {
                         message: '不能为空'
                     },
                     {
-                        rule: /[\d\w]{3,9}/,
+                        rule: /[\d\w]{6,9}/,
                         message: '账号格式：6-9位数字或者小写字母'
                     }
                 ],
@@ -30,7 +30,7 @@ export default function useValidatorInstance(instance) {
                         message: '不能为空'
                     },
                     {
-                        rule: /[\d\w]{3,9}/,
+                        rule: /[\d\w]{6,9}/,
                         message: '账号格式：6-9位数字或者小写字母'
                     },
                     {
@@ -48,7 +48,7 @@ export default function useValidatorInstance(instance) {
                         message: '不能为空'
                     },
                     {
-                        rule: /[\d\w]{3,9}/,
+                        rule: /[\d\w]{6,9}/,
                         message: '账号格式：6-9位数字或者小写字母'
                     },
                     {

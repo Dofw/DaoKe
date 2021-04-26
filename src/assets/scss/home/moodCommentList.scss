@@ -20,18 +20,17 @@
                     &-content {
                         margin-bottom: 5px;
                         img {
-                            width: 40px;
-                            height: 40px;
-                            margin-right: 10px;
-                            border: 2px solid burlywood;
+                            width: 30px;
+                            height: 30px;
                             border-radius: 50%;
                         }
                         > div {
+                            margin-left: 10px;
                             p {
                                 margin: 0;
                                 &:nth-of-type(1) {
                                     margin-bottom: 5px;
-                                    font-size: 1rem;
+                                    font-size: 0.9rem;
                                     font-weight: 800;
                                 }
                             }

@@ -32,15 +32,20 @@ $http.interceptors.response.use(
     },
     err => {
         if (err.response) {
-            console.log(err.response)
             switch (err.response.status) {
                 case 401: //前后端约定，401为请登录。
                     ElMessage({
-                        message: '请登录'
+                        message: err.response.data.message
                     })
                     router.push('/account/login')
                     break
+
                 case 402: //前后端约定，402为输入为空。
+                    ElMessage({
+                        message: err.response.data.message
+                    })
+                    break
+                case 403:
                     ElMessage({
                         message: err.response.data.message
                     })

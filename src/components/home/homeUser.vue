@@ -11,7 +11,7 @@
         </el-col>
         <el-col class="islogin" :span="18" v-else>
             <div class="show d-flex align-items-center" @mouseenter="isShow">
-                <div class="block" v-if="userInfo.photoUrl">
+                <div class="block " v-if="userInfo.photoUrl">
                     <el-avatar
                         :src="userInfo.photoUrl"
                         shape="square"
@@ -21,10 +21,9 @@
                 </div>
                 <div class="block" v-else>
                     <el-avatar
-                        src="/../../assets/images/you1.jpg"
-                        shape="square"
-                        :fit="'fill'"
                         :size="30"
+                        fit="cover"
+                        icon="el-icon-user-solid"
                     ></el-avatar>
                 </div>
 

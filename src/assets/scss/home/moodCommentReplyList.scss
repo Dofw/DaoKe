@@ -6,9 +6,20 @@
             margin-bottom: 7px;
             border-bottom: 1px solid black;
         }
-        span.reply-color {
-            color: cadetblue;
+        .reply-area {
+            > span {
+                font-size: 0.9rem;
+                font-weight: 800;
+                padding: 0 3px;
+                .reply-color {
+                    color: cadetblue;
+                }
+                &.reply-content-color {
+                    color: #999;
+                }
+            }
         }
+
         .time {
             font-size: 0.8rem;
             color: #999 !important;

@@ -10,7 +10,7 @@
                 <input
                     type="text"
                     name="username"
-                    autocomplete="off"
+                    autocomplete="on"
                     data-field
                     value=""
                 />
@@ -18,7 +18,7 @@
             </div>
             <div class="pwd" data-field-container="pwd">
                 <label for=""> 密码</label>
-                <input type="text" name="pwd" data-field value="" />
+                <input type="password" name="pwd" data-field value="" />
                 <p data-field-error></p>
             </div>
             <div class="other">
@@ -53,7 +53,6 @@ export default {
         useLoginValidatorInstance(validatorInstanceRef) // 通过onMounted,生成一个instance实例赋值给validator...
         // button-注册提交函数。
         const onLogin = function(e) {
-            console.log(this)
             e.preventDefault()
             const validator = validatorInstanceRef.value
             const formData = validator.getFormData()
@@ -78,7 +77,6 @@ export default {
                     })
             } else {
                 validator.setStatus()
-                console.log(this)
                 ElMessage({
                     type: 'danger',
                     message: '信息错误!'

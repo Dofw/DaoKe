@@ -18,7 +18,6 @@ export default function useEditormoBindEvent(mp3UrlRef, pictureUrlRef) {
 
     // btn提交事件,真正上传。
     const submit = async function() {
-        console.log(this)
         const formDom = document.getElementsByClassName('editormood')[0]
         const moodDom = document.getElementById('mood')
         // 空值阻止发送请求

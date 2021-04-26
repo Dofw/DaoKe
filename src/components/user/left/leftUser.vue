@@ -1,7 +1,12 @@
 <template>
     <div class="user d-flex align-items-center flex-wrap ">
         <img v-if="formInfo.photoUrl" :src="formInfo.photoUrl" alt="" />
-        <img v-else src="@/assets/images/you1.jpg" alt="" />
+        <el-avatar
+            v-else
+            :size="40"
+            fit="cover"
+            icon="el-icon-user-solid"
+        ></el-avatar>
         <div class="me d-flex align-self-end flex-grow-1 ">
             <span class="d-flex align-items-center flex-grow-1 ml-3">{{
                 formInfo.nickname
@@ -32,6 +37,7 @@
                 </div>
                 <div class="uploadphoto">
                     <span>upload-photo</span>
+
                     <img
                         v-show="formInfo.photoUrl"
                         id="prePhoto"

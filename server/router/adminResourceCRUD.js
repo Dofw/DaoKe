@@ -22,7 +22,7 @@ module.exports = app => {
                 if (req.params.model === 'mood') {
                     // mood时，关联info
                     const info = await Info.findOne({ username: req.id })
-                    assert(info, 401, '没有查询到info')
+                    assert(info, 500, '数据库繁忙，未找到info')
 
                     source.info = info._id
                 }

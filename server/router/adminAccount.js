@@ -13,7 +13,7 @@ module.exports = app => {
 
         // 是否已注册
         const oldUser = await User.findOne({ username: username })
-        assert(!oldUser, 401, '用户存在')
+        assert(!oldUser, 403, '用户存在')
 
         // 存数据
         const newUser = new User({
@@ -23,14 +23,13 @@ module.exports = app => {
         })
         // 新用户的数据，也是注册后建立的。
         const info = await Info.create({})
-        console.log(info)
         info.username = newUser._id
         await info.save()
 
         try {
             await newUser.save()
         } catch (error) {
-            assert(!error, 401, '用户存在')
+            assert(!error, 403, '用户存在')
         }
 
         res.status(200).send({ message: '注册成功' })
@@ -39,12 +38,10 @@ module.exports = app => {
     // 登录
     router.post('/admin/account/login', async (req, res) => {
         const { username, pwd } = req.body.data
-        console.log(username)
         const user = await User.findOne({ username }).select('+pwd')
         assert(user, 401, '用户不存在')
 
         // 存在后，校验密码。
-        console.log(user)
         const isCorrect = bcrypt.compareSync(pwd, user.pwd)
         assert(isCorrect, 401, '密码错误')
 

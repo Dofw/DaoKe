@@ -6,7 +6,13 @@
                 :src="com.reviewer.photoUrl"
                 alt=""
             />
-            <img v-else src="" alt="默认头像" />
+            <el-avatar
+                v-else
+                :size="30"
+                fit="cover"
+                icon="el-icon-user-solid"
+            ></el-avatar>
+
             <div class="flex-grow-1">
                 <p>
                     {{ com.reviewer.nickname ? com.reviewer.nickname : '刀客' }}
@@ -14,7 +20,7 @@
                 <p>{{ com.content }}</p>
                 <div class="time-reply">
                     <span>
-                        {{ com.time }}
+                        {{ timeRef(com.time) }}
                     </span>
                     <el-badge
                         class="item"
@@ -48,6 +54,7 @@ import { ref, onMounted, computed } from 'vue'
 import useCommentInterface from '@/compositions/home/useCommentInterface.js'
 import MoodCommentInput from '@/components/home/moodCommentInput.vue'
 import MoodCommentReplyList from './moodCommentReplyList.vue'
+import useTimeFormat from '@/compositions/useTimeFormat.js'
 
 export default {
     name: 'mood-comment-list', // 递归组件
@@ -113,7 +120,8 @@ export default {
             onCreateRep,
             isCreate,
             oncancelReply,
-            countRef
+            countRef,
+            ...useTimeFormat()
         }
     },
 

@@ -1,5 +1,6 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+    outputDir: __dirname + '/server/daoke',
+    // publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
     devServer: {
         open: true,
         port: 4000,
@@ -10,6 +11,8 @@ module.exports = {
                 changeOrigin: true
             }
         }
+    },
+    configureWebpack: {
+        // devtool: 'source-map'
     }
-    // outputDir: __dirname + '/server/public',
 }

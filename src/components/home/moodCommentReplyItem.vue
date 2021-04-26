@@ -1,17 +1,25 @@
 <template>
     <div class="comment-reply-item">
         <div class="d-flex justify-content-between align-items-end">
-            <div class="flex-grow-1">
-                <span class="time">{{ rep.time }}</span>
-                <span v-if="rep.tier === 1">
+            <div
+                class="reply-area flex-grow-1 d-flex justify-content-between
+            "
+            >
+                <span v-if="rep.tier === 1" class="flex-shrink-0">
                     {{ rep.reviewer.nickname }}
-                    <span class="reply-color">回复 @</span>
-                    {{ rep.auther.nickname }} :
-                    {{ rep.content }}
+                    <span class="reply-color">回复 @</span
+                    >{{ rep.auther.nickname }}
                 </span>
-                <span v-else>
-                    {{ rep.reviewer.nickname }} : {{ rep.content }}
-                </span>
+                <span v-else class="flex-shrink-0">
+                    {{ rep.reviewer.nickname }}</span
+                >
+
+                <span class="reply-content-color flex-grow-1">
+                    : {{ rep.content }}</span
+                >
+                <span class="time flex-shrink-0 align-self-end">{{
+                    timeRef(rep.time)
+                }}</span>
             </div>
             <div class="d-flex justify-content-end">
                 <el-badge
@@ -38,8 +46,9 @@
 <script>
 import useCommentInterface from '@/compositions/home/useCommentInterface.js'
 import MoodCommentInput from '@/components/home/moodCommentInput.vue'
+import useTimeFormat from '@/compositions/useTimeFormat.js'
 
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 export default {
     props: {
@@ -112,7 +121,8 @@ export default {
             onCreate,
             oncancelReply,
             RepCountRef,
-            switchRef
+            switchRef,
+            ...useTimeFormat()
         }
     },
     components: {

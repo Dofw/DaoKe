@@ -24,5 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/user/editor.scss';
+@import '@/assets/scss/user/moodEditor.scss';
 </style>

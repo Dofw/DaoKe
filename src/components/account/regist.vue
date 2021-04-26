@@ -10,7 +10,7 @@
                 <input
                     type="text"
                     name="username"
-                    autocomplete="off"
+                    autocomplete="on"
                     data-field
                     value=""
                 />
@@ -19,7 +19,7 @@
             <div class="createpwd" data-field-container="createpwd">
                 <label for=""> 创建密码</label>
                 <input
-                    type="text"
+                    type="password"
                     name="createpwd"
                     autocomplete="off"
                     data-field-trigger="affirmpwd"
@@ -31,7 +31,7 @@
             <div class="affirmpwd" data-field-container="affirmpwd">
                 <label for="">确认密码</label>
                 <input
-                    type="text"
+                    type="password"
                     name="affirmpwd"
                     autocomplete="off"
                     data-field-event="input"
@@ -44,7 +44,9 @@
             <div class="other">
                 <button @click="onRegist">提交</button>
                 <div class="d-flex justify-content-end">
-                    <span class="flex-grow-1">客服电话：xxx</span>
+                    <span class="flex-grow-1">
+                        客服电话：xxx
+                    </span>
                     <router-link
                         custom
                         to="/account/login"
@@ -55,6 +57,9 @@
                     >
                     <span>home</span>
                 </div>
+                <h6 style="color: #2ed;">
+                    测试demo：密码设置为简单密码，而非个人常用密码
+                </h6>
             </div>
         </form>
     </div>
@@ -64,6 +69,9 @@
 import { ref } from 'vue'
 import $http from '../../axios/http.js'
 import useValidatorInstance from '../../compositions/account/useRegistValidatorInstance.js'
+import { ElMessage } from 'element-plus'
+import router from '@/routes/index.js'
+
 export default {
     setup() {
         const validatorInstanceRef = ref(null) //初始化，响应式验证实例对象。
@@ -84,11 +92,18 @@ export default {
                 }
             }
             validator.setStatus()
-            console.log(data)
             if (isPass.formPass) {
-                $http.post('/admin/account/regist', {
-                    data: data
-                })
+                $http
+                    .post('/admin/account/regist', {
+                        data: data
+                    })
+                    .then(res => {
+                        ElMessage({
+                            type: 'success',
+                            message: '注册成功!'
+                        })
+                        router.push('/account/login')
+                    })
             }
         }
         return {

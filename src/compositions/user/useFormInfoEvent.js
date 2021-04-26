@@ -17,7 +17,6 @@ export default function useFormInfoEvent(proxyData) {
     //
     const isShow = ref(false)
     const changeshow = function() {
-        console.log(this)
         //当做submit的工具函数调用
         isShow.value = !isShow.value
     }
@@ -33,7 +32,7 @@ export default function useFormInfoEvent(proxyData) {
     // uploadPre触发filedom触发，并预备展示。
     const uploadPre = () => {
         fileDom.click()
-        fileDom.onchange = function() {
+        fileDom.onchange = function(e) {
             const readFile = new FileReader()
             readFile.readAsDataURL(this.files[0])
             readFile.onload = function() {
@@ -43,17 +42,15 @@ export default function useFormInfoEvent(proxyData) {
                 imgPreDom.style.display = 'block'
                 imgPreDom.src = this.result
             }
-            // e.target.value = null //设置之后，fileDom就没有文件了。
+            e.target.value = null //设置之后，fileDom就没有文件了。
         }
     }
 
     // 表单提交(服务端updata数据)
     const formInfoSubmit = async function(e) {
-        console.log(this)
         // 阻止默认事件
         e.preventDefault()
         const data = formInstance.getFormData()
-        console.log(data)
         unShow(e)
 
         // 创建form表单上传对象
@@ -70,7 +67,6 @@ export default function useFormInfoEvent(proxyData) {
                 body: formData
             })
             res = await res.text()
-            console.log(res)
             res = JSON.parse(res)
             if (res.status !== 200) {
                 imgDom.src = proxyData.photoUrl // 解决imgshow，变回原来的url。
@@ -99,7 +95,6 @@ export default function useFormInfoEvent(proxyData) {
     }
 
     const onLogout = function() {
-        console.log(this)
         this.$confirm('是否注销登录！', proxyData.nickname, {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
