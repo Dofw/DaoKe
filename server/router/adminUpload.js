@@ -29,7 +29,7 @@ module.exports = app => {
 
             // 生成服务端文件路径
             req.files[fieldKeys[0]][0].url =
-                `http://localhost:3000/admin/public/upload/${req.params.category}/` +
+                `http://118.195.232.234/admin/public/upload/${req.params.category}/` +
                 req.files[fieldKeys[0]][0].filename
 
             res.send({
