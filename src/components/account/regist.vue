@@ -55,7 +55,9 @@
                             >login</span
                         ></router-link
                     >
-                    <span>home</span>
+                    <router-link custom to="/home/mood" v-slot="{ navigate }"
+                        ><span role="link" @click="navigate">home</span>
+                    </router-link>
                 </div>
                 <h6 style="color: #2ed;">
                     测试demo：密码设置为简单密码，而非个人常用密码
