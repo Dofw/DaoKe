@@ -37,12 +37,11 @@ export default function useFormInfoEvent(proxyData) {
             readFile.readAsDataURL(this.files[0])
             readFile.onload = function() {
                 imgDom.src = this.result // 解决imgurl，show存在情况
-
                 //单独控制pre，默认none
                 imgPreDom.style.display = 'block'
                 imgPreDom.src = this.result
             }
-            e.target.value = null //设置之后，fileDom就没有文件了。
+            // e.target.value = null //设置之后，fileDom就没有文件了。
         }
     }
 
@@ -56,7 +55,6 @@ export default function useFormInfoEvent(proxyData) {
         // 创建form表单上传对象
         const formData = new FormData()
         formData.append(fileDom.name, fileDom.files[0])
-
         // 头像上传
         if (fileDom.files.length !== 0) {
             const baseURL = process.env.VUE_APP_API_URL || '/'

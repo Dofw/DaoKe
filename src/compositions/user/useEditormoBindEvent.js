@@ -137,8 +137,9 @@ function requestAll(fileData) {
         Authorization: 'Bearer ' + (sessionStorage.token || '')
     })
     const method = 'Post'
+    const baseURL = process.env.VUE_APP_API_URL || '/'
     for (const iterator of fileData) {
-        let url = `http://localhost:3000/admin/upload/${iterator[0]}`
+        let url = `${baseURL}admin/upload/${iterator[0]}`
 
         let file = iterator[1][0]
         if (!file) {
