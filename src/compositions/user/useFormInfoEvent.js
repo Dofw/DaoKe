@@ -59,7 +59,8 @@ export default function useFormInfoEvent(proxyData) {
 
         // 头像上传
         if (fileDom.files.length !== 0) {
-            let res = await fetch('http://localhost:3000/admin/upload/photo', {
+            const baseURL = process.env.VUE_APP_API_URL || '/'
+            let res = await fetch(`${baseURL}admin/upload/photo`, {
                 method: 'post',
                 headers: {
                     Authorization: 'Bearer ' + (sessionStorage.token || '')
