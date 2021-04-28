@@ -44,7 +44,10 @@ module.exports = app => {
 
     //find-all mood
     router.get('/find', modelMiddleware(), async (req, res) => {
-        const source = await req.model.find().populate('info') //带出来。
+        const source = await req.model
+            .find()
+            .populate('info')
+            .sort({ time: -1 }) //带出来。
         res.send({
             status: 200,
             message: source
