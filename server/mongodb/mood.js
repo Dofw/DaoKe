@@ -35,7 +35,7 @@ const Mood = mongoose.model(
             default: null
         },
         time: {
-            type: Date,
+            type: Number,
             default: Date.now()
         }
     })

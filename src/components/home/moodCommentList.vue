@@ -2,7 +2,7 @@
     <div class="mood-comment-list ">
         <div class="mood-comment--btn">
             <el-badge class="item" :value="praiseRef" :hidden="!praiseRef">
-                <el-button size="mini" @click="onpraiseCount">点赞</el-button>
+                <el-button size="mini" @click="onpraise">点赞</el-button>
             </el-badge>
             <el-badge
                 class="item"
@@ -46,9 +46,10 @@
 <script>
 import { ref, onMounted } from 'vue'
 import useCommentShow from '@/compositions/home/useCommentShow.js'
-import useCommentInterface from '@/compositions/home/useCommentInterface.js'
 import MoodCommentInput from '@/components/home/moodCommentInput.vue'
 import MoodCommentListItem from '@/components/home/moodCommentListItem.vue'
+import useCommentInterface from '@/compositions/home/useCommentInterface.js'
+import usePraiseInterface from '@/compositions/home/usePraiseInterface.js'
 
 export default {
     name: 'mood-comment-list', // 递归组件
@@ -73,6 +74,7 @@ export default {
         // 交互功能
         const comsData = ref([])
         const praiseRef = ref(null)
+        const donePraiseRef = ref(false)
         const body = {
             auther: props.auther, // mood的作者
             type: props.type, // mood类型
@@ -84,42 +86,45 @@ export default {
             moodId: props.moodId
         }
 
-        const {
-            onGetComs,
-            onComment,
-            likeCountCU,
-            onGetOneLikeCount
-        } = useCommentInterface()
+        const { onGetComs, onComment } = useCommentInterface()
+
+        const { onGetDonePraise, praiseCU } = usePraiseInterface()
 
         // 评论input组件触发的接受函数
         const onCreateCom = async condition => {
             body.cotent = condition.textarea
             await onComment(condition, body, comsData)
         }
-        const onpraiseCount = async () => {
-            const count = await likeCountCU(props.moodId)
-            praiseRef.value = count
+
+        const onpraise = async () => {
+            // userID,怎么获取
+            const result = await praiseCU(props.moodId)
+            praiseRef.value = result.praise.count
+            donePraiseRef.value = result.done
         }
 
         // 获取数据
         onMounted(async () => {
             //$http错误的问题都集中在http中，如果进入到这里，说明是成功的返回结果。
             const coms = await onGetComs(params)
-            const count = await onGetOneLikeCount(props.moodId)
+            // 用户id
+            const result = await onGetDonePraise(props.moodId)
             comsData.value = coms.message
-            if (count.message === null) {
+            if (result === null) {
                 praiseRef.value = null
             } else {
-                praiseRef.value = count.message.count
+                praiseRef.value = result.praise.count
+                donePraiseRef.value = result.done
             }
         })
 
         return {
+            ...useCommentShow(),
             onCreateCom,
             comsData,
-            ...useCommentShow(),
             praiseRef,
-            onpraiseCount
+            donePraiseRef,
+            onpraise
         }
     },
 

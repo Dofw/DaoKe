@@ -30,6 +30,7 @@ module.exports = app => {
                 // return： 1没有参数，undefined；2有{}，如果不满足条件，报错； 3返回该doc，或者[docs]
                 source.username = req.id
                 await source.save()
+
                 res.send({
                     status: 200,
                     message: req.params.model + '保存成功'
@@ -44,13 +45,11 @@ module.exports = app => {
 
     //find-all mood
     router.get('/find', modelMiddleware(), async (req, res) => {
-        const source = await req.model
-            .find()
-            .populate('info')
-            .sort({ time: -1 }) //带出来。
+        const source = await req.model.find().populate('info')
+        //带出来。
         res.send({
             status: 200,
-            message: source
+            message: source.reverse()
         })
     })
 

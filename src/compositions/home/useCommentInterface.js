@@ -53,49 +53,24 @@ export default function useCommentInterface() {
         return res
     }
 
-    //创建count
+    //创建repcount
     const onCreateOneRepCount = async data => {
-        const res = await $http.post('/admin/count/like/create', {
+        const res = await $http.post('/admin/count/count/create', {
             data
         })
         return res
     }
-    //更新count
+    //更新Repcount
     const onUpdateOneRepCount = async data => {
-        const res = await $http.post('/admin/count/like/update', {
+        const res = await $http.post('/admin/count/count/update', {
             data
         })
         return res
     }
 
-    //获取count
+    //获取Repcount
     const onGetOneRepCount = async id => {
-        const res = await $http.get('/admin/count/like/findOne', {
-            params: {
-                id
-            }
-        })
-        return res
-    }
-
-    //创建count
-    const onCreateOneLikeCount = async data => {
-        const res = await $http.post('/admin/count/like-count/create', {
-            data
-        })
-        return res
-    }
-    //更新count
-    const onUpdateOneLikeCount = async data => {
-        const res = await $http.post('/admin/count/like-count/update', {
-            data
-        })
-        return res
-    }
-
-    //获取count
-    const onGetOneLikeCount = async id => {
-        const res = await $http.get('/admin/count/like-count/findOne', {
+        const res = await $http.get('/admin/count/count/findOne', {
             params: {
                 id
             }
@@ -104,7 +79,7 @@ export default function useCommentInterface() {
     }
 
     /**
-     * count的创建和update封装函数。
+     * precount的创建和update封装函数。
      */
     async function countCU(id) {
         let count = await onGetOneRepCount(id) //先获取。
@@ -126,29 +101,6 @@ export default function useCommentInterface() {
         return num.message.count
     }
 
-    /**
-     * LIKEcount的创建和update封装函数。
-     */
-    async function likeCountCU(id) {
-        let count = await onGetOneLikeCount(id) //先获取。
-        if (count.message === null) {
-            await onCreateOneLikeCount({
-                // 创建
-                id: id,
-                count: 1
-            })
-        } else {
-            await onUpdateOneLikeCount({
-                // 更新
-                id: id,
-                count: ++count.message.count
-            })
-        }
-        const num = await onGetOneLikeCount(id) //再获取，更新。
-
-        return num.message.count
-    }
-
     return {
         onComment,
         onReply,
@@ -157,10 +109,6 @@ export default function useCommentInterface() {
         onGetOneRepCount,
         onCreateOneRepCount,
         onUpdateOneRepCount,
-        onGetOneLikeCount,
-        onCreateOneLikeCount,
-        onUpdateOneLikeCount,
-        countCU,
-        likeCountCU
+        countCU
     }
 }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const Like = mongoose.model(
-    'Like',
+const Count = mongoose.model(
+    '   Count',
     new mongoose.Schema({
         count: {
             type: Number,
@@ -15,4 +15,4 @@ const Like = mongoose.model(
     })
 )
 
-module.exports = Like
+module.exports = Count
