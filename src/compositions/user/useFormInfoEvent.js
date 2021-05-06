@@ -1,10 +1,17 @@
 import { ref, onMounted } from 'vue'
-import $http from '@/axios/http.js'
-import useFormInfoInitData from '@/compositions/user/useFormInfoInitData.js'
 import myFormData from '@/utils/myFormData.js'
 import router from '@/routes/index.js'
 
+import { useStore } from 'vuex'
+
+import {
+    UPDATE_USER_INFO,
+    UPLOAD_USER_PHOTO,
+    ACCOUNT_LOGOUT
+} from '@/store/variableNmae.js'
+
 export default function useFormInfoEvent(proxyData) {
+    const store = useStore()
     let fileDom, formDom, imgDom, imgPreDom, formInstance
     // 生命周期函数：获取dom保存起来。供后面渲染完成后，异步函数使用。
     onMounted(() => {
@@ -24,7 +31,7 @@ export default function useFormInfoEvent(proxyData) {
         e.preventDefault()
 
         // 如何让数据跟新，从而让该组件从新渲染原始数据。
-        imgDom.src = proxyData.photoUrl // 解决imgshow，变回原来的url。
+        imgDom.src = proxyData.value.photoUrl // 解决imgshow，变回原来的url。
         imgPreDom.style.display = 'none'
         // form组件消失
         isShow.value = !isShow.value
@@ -57,50 +64,51 @@ export default function useFormInfoEvent(proxyData) {
         formData.append(fileDom.name, fileDom.files[0])
         // 头像上传
         if (fileDom.files.length !== 0) {
-            const baseURL = process.env.VUE_APP_API_URL || '/'
-            let res = await fetch(`${baseURL}admin/upload/photo`, {
-                method: 'post',
-                headers: {
-                    Authorization: 'Bearer ' + (sessionStorage.token || '')
-                },
-                body: formData
+            // const baseURL = process.env.VUE_APP_API_URL || '/'
+            // let res = await fetch(`${baseURL}admin/upload/photo`, {
+            //     method: 'post',
+            //     headers: {
+            //         Authorization: 'Bearer ' + (sessionStorage.token || '')
+            //     },
+            //     body: formData
+            // })
+
+            const res = await store.dispatch('user/' + UPLOAD_USER_PHOTO, {
+                formData
             })
-            res = await res.text()
-            res = JSON.parse(res)
+
             if (res.status !== 200) {
-                imgDom.src = proxyData.photoUrl // 解决imgshow，变回原来的url。
+                imgDom.src = proxyData.value.photoUrl // 解决imgshow，变回原来的url。
                 this.$message({
                     type: 'success',
                     message: res.message
                 })
                 return
             }
+
             if (res.url) {
                 data.photoUrl = res.url
             }
         }
 
-        // 上传跟新数据。
-        const res = await $http.post('/admin/resource/info/update', {
-            data: data
-        })
+        await store.dispatch('user/' + UPDATE_USER_INFO, { data: data })
 
         this.$message({
             type: 'success',
-            message: res.message
+            message: '修改成功！'
         })
-        //更新后，再次改变响应式数据。
-        useFormInfoInitData(proxyData)
     }
 
     const onLogout = function() {
-        this.$confirm('是否注销登录！', proxyData.nickname, {
+        this.$confirm('是否注销登录！', proxyData.value.nickname, {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
         })
             .then(() => {
-                sessionStorage.clear()
+                // sessionStorage.clear()
+                store.commit('account/' + ACCOUNT_LOGOUT)
+
                 router.push('/account/login')
 
                 this.$message({

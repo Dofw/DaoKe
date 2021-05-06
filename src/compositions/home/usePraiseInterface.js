@@ -50,8 +50,13 @@ export default function useCommentInterface() {
     }
 
     //获取praise
-    const onGetDonePraise = async id => {
-        const res = await $http.get('/admin/count/done-praise/findOne')
+    const onGetDonePraise = async (id1, id2) => {
+        const res = await $http.get('/admin/count/done-praise/findOne', {
+            params: {
+                moodId: id1,
+                id: id2
+            }
+        })
         return res.message
     }
 
@@ -65,7 +70,7 @@ export default function useCommentInterface() {
         if (!praiseResult) {
             await onCreatePraise({
                 id: id1,
-                count: 1
+                count: 0
             })
 
             //找出来，获取当前的数据。
@@ -73,18 +78,22 @@ export default function useCommentInterface() {
         }
 
         //praiseResult 创建完之后，才能操作done-praise
-        let donePraise = await onGetDonePraise(id2)
+        let donePraise = await onGetDonePraise(id1, id2)
+        console.log(donePraise)
         let count = praiseResult.count
         if (!donePraise) {
             // 服务端进行关联， praise
             await onCreateDonePraise({
-                done: true
+                done: true,
+                moodId: id1,
+                id: id2
             })
             count += 1
         } else {
             //donePraise存在，update
             await onUpdateDonePraise({
-                done: !donePraise.done
+                done: !donePraise.done,
+                moodId: id1
             })
             // 此时状态为，true，点击后为false，-1
             donePraise.done ? (count -= 1) : (count += 1)
@@ -96,7 +105,7 @@ export default function useCommentInterface() {
         })
 
         // 获取跟新后的数据
-        donePraise = await onGetDonePraise(id2)
+        donePraise = await onGetDonePraise(id1, id2)
         return donePraise
     }
 

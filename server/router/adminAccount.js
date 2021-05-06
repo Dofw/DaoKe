@@ -53,7 +53,7 @@ module.exports = app => {
             app.get('secret')
         )
 
-        res.send({ token })
+        res.send({ token, id: user._id })
     })
 
     app.use(router)

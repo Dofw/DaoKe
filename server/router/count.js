@@ -26,7 +26,7 @@ module.exports = app => {
             const result = await req.model.create(data)
 
             if (req.params.model === 'done-praise') {
-                const praiseRes = await praise.findOne()
+                const praiseRes = await praise.findOne({ id: data.moodId })
                 result.praise = praiseRes._id
             }
 
@@ -51,10 +51,13 @@ module.exports = app => {
             if (req.params.model === 'done-praise') {
                 //有鉴权
                 id = req.id
+                await req.model.update(
+                    { id, moodId: data.moodId },
+                    req.body.data
+                )
+            } else {
+                await req.model.update({ id }, req.body.data)
             }
-
-            // update
-            await req.model.update({ id }, req.body.data)
 
             res.send({
                 status: 200,
@@ -65,12 +68,18 @@ module.exports = app => {
     // 获取
     router.get('/findOne', modelMiddleware(), async (req, res) => {
         const params = req.query
-        let id = params.id
+        let { id, moodId } = params
         let praise
         if (req.params.model === 'done-praise') {
             //应为这里，要用到 鉴权后的userid。但是find，不应该有鉴权，否则首页没办法一开始展示总数。
 
-            praise = await req.model.findOne().populate('praise')
+            praise = await req.model
+                .findOne({
+                    id,
+                    moodId
+                })
+                .populate('praise')
+            console.log(praise)
         } else {
             praise = await req.model.findOne({ id })
         }

@@ -19,7 +19,8 @@
     "mongoose": "^5.10.15",
     "multer": "^1.4.2",
     "utils": "^0.3.1",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -1,6 +1,6 @@
 <template>
     <el-row type="flex" class="nav--user" justify="end" align="middle">
-        <el-col class="unlogin" :span="11" v-if="!isSessionRef">
+        <el-col class="unlogin" :span="11" v-if="!$store.state.account.token">
             <router-link custom to="/account/login" v-slot="{ navigate }">
                 <div class=" block">
                     <el-button @click="navigate" type="primary" size="mini"
@@ -108,21 +108,22 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import $http from '@/axios/http.js'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import {
+    GET_USER_INIT,
+    ACCOUNT_LOGOUT,
+    ACCOUNT_CHANGE
+} from '@/store/variableNmae'
 
 export default {
     setup() {
+        const store = useStore()
         /**
-         * 切换功能
+         * user信息展示框，的显示切换
          */
-        let isSessionRef = ref(!!sessionStorage.token)
         let isExhibitionRef = ref(false)
 
-        const onexist = () => {
-            sessionStorage.clear()
-            isSessionRef.value = !!sessionStorage.token
-        }
         const isShow = () => {
             isExhibitionRef.value = true
         }
@@ -130,27 +131,33 @@ export default {
             isExhibitionRef.value = false
         }
 
+        store.commit('account/' + ACCOUNT_CHANGE, {
+            sessionStorage
+        })
         /**
          * 请求数据
          */
-        let userInfo = ref({})
+        let userInfo = computed({
+            //
+            get() {
+                return store.state.user.formInfo
+            }
+        })
 
-        async function getUserInfo() {
-            const res = await $http.get('/admin/resource/user/findone')
-            userInfo.value = res.message.info
+        if (store.state.account.token) {
+            store.dispatch('user/' + GET_USER_INIT)
         }
-        //存在token，才请求数据
-        if (isSessionRef.value) {
-            getUserInfo()
+
+        const onexist = () => {
+            store.commit('account/' + ACCOUNT_LOGOUT)
         }
 
         return {
-            onexist,
             userInfo,
-            isSessionRef,
             isExhibitionRef,
             isShow,
-            isHide
+            isHide,
+            onexist
         }
     }
 }

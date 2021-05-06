@@ -141,23 +141,23 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue'
-import useFormInfoInitData from '@/compositions/user/useFormInfoInitData.js'
+import { ref, computed } from 'vue'
 import useFormInfoEvent from '@/compositions/user/useFormInfoEvent.js'
+import { useStore } from 'vuex'
+import { GET_USER_INIT } from '@/store/variableNmae.js'
+
 export default {
     setup() {
-        //初始化假数据
-        let initInfo = {
-            nickname: '刀客',
-            photoUrl: null,
-            sex: 'man', // 默认男
-            games: [],
-            username: ''
-        }
+        const store = useStore()
 
-        const formInfo = reactive(initInfo)
+        const formInfo = computed({
+            get() {
+                return store.state.user.formInfo
+            }
+        })
         //获取服务端数据
-        useFormInfoInitData(formInfo)
+        store.dispatch('user/' + GET_USER_INIT)
+
         return {
             ...useFormInfoEvent(formInfo),
             formInfo

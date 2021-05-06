@@ -44,15 +44,17 @@
 import { ref } from 'vue'
 import router from '@/routes/index.js'
 import useLoginValidatorInstance from '@/compositions/account/useLoginValidatorInstance.js'
-import $http from '@/axios/http.js'
 import { ElMessage } from 'element-plus'
+import { useStore } from 'vuex'
+import { ACCOUNT_LOGIN } from '@/store/variableNmae.js'
 
 export default {
     setup() {
+        const store = useStore()
         const validatorInstanceRef = ref(null) //初始化，响应式验证实例对象。
         useLoginValidatorInstance(validatorInstanceRef) // 通过onMounted,生成一个instance实例赋值给validator...
         // button-注册提交函数。
-        const onLogin = function(e) {
+        const onLogin = async function(e) {
             e.preventDefault()
             const validator = validatorInstanceRef.value
             const formData = validator.getFormData()
@@ -63,23 +65,21 @@ export default {
             }
 
             if (isPass.formPass) {
-                $http
-                    .post('/admin/account/login', {
-                        data: data
+                const res = await store.dispatch('account/' + ACCOUNT_LOGIN, {
+                    data
+                })
+                if (res) {
+                    ElMessage({
+                        type: 'success',
+                        message: '登录成功!'
                     })
-                    .then(res => {
-                        sessionStorage.token = res.token
-                        ElMessage({
-                            type: 'success',
-                            message: '登录成功!'
-                        })
-                        router.push('/home/mood')
-                    })
+                    router.push('/home/mood')
+                }
             } else {
                 validator.setStatus()
                 ElMessage({
                     type: 'danger',
-                    message: '信息错误!'
+                    message: '登录信息有误!'
                 })
             }
         }

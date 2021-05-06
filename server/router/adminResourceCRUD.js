@@ -88,11 +88,17 @@ module.exports = app => {
         modelMiddleware(),
         async (req, res) => {
             // update
-            await req.model.update({ username: req.id }, req.body.data)
-
+            const result = await req.model.update(
+                { username: req.id },
+                req.body.data
+            )
+            let data
+            if (result.ok === 1) {
+                data = await req.model.findOne({ username: req.id })
+            }
             res.send({
                 status: 200,
-                message: '更新成功'
+                message: data
             })
         }
     )

@@ -13,6 +13,11 @@ const DonePraise = mongoose.model(
             type: mongoose.SchemaTypes.ObjectId,
             required: true
         },
+        moodId: {
+            //点赞者
+            type: mongoose.SchemaTypes.ObjectId,
+            required: true
+        },
         praise: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'Praise'

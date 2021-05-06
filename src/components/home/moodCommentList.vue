@@ -50,7 +50,7 @@ import MoodCommentInput from '@/components/home/moodCommentInput.vue'
 import MoodCommentListItem from '@/components/home/moodCommentListItem.vue'
 import useCommentInterface from '@/compositions/home/useCommentInterface.js'
 import usePraiseInterface from '@/compositions/home/usePraiseInterface.js'
-
+import { useStore } from 'vuex'
 export default {
     name: 'mood-comment-list', // 递归组件
     props: {
@@ -71,6 +71,7 @@ export default {
     },
 
     setup(props) {
+        const store = useStore()
         // 交互功能
         const comsData = ref([])
         const praiseRef = ref(null)
@@ -97,8 +98,8 @@ export default {
         }
 
         const onpraise = async () => {
-            // userID,怎么获取
-            const result = await praiseCU(props.moodId)
+            // userID,怎么获取,这里时为了统一管理用了vuex，由于刷新页面，vuex的状态数据就初始化了。所以要在commit（sessionStorage）
+            const result = await praiseCU(props.moodId, store.state.account.id)
             praiseRef.value = result.praise.count
             donePraiseRef.value = result.done
         }
@@ -108,7 +109,10 @@ export default {
             //$http错误的问题都集中在http中，如果进入到这里，说明是成功的返回结果。
             const coms = await onGetComs(params)
             // 用户id
-            const result = await onGetDonePraise(props.moodId)
+            const result = await onGetDonePraise(
+                props.moodId,
+                store.state.account.id
+            )
             comsData.value = coms.message
             if (result === null) {
                 praiseRef.value = null
