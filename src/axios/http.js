@@ -6,7 +6,7 @@ import router from '@/routes/index.js'
 
 const $http = axios.create({
     baseURL: process.env.VUE_APP_API_URL || '/',
-    timeout: 20000,
+    timeout: 1000,
     headers: {
         'content-type': 'application/json'
     }
