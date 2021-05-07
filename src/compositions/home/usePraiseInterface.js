@@ -79,7 +79,6 @@ export default function useCommentInterface() {
 
         //praiseResult 创建完之后，才能操作done-praise
         let donePraise = await onGetDonePraise(id1, id2)
-        console.log(donePraise)
         let count = praiseResult.count
         if (!donePraise) {
             // 服务端进行关联， praise

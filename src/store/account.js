@@ -28,7 +28,7 @@ export default {
                 data: data
             })
             ;(sessionStorage.id = res.id), (sessionStorage.token = res.token)
-            context.commit(ACCOUNT_CHANGE, { data: res })
+            context.commit(ACCOUNT_CHANGE, { sessionStorage })
             return res
         }
     }
