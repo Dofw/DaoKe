@@ -101,7 +101,7 @@ export default {
         const music = ref(null)
         const progress = ref(null)
         const voice = ref(null)
-        
+
         let audioDom, progressDom, voiceSizeDom
 
         onMounted(() => {
