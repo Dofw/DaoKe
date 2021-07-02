@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import useCommentShow from '@/compositions/home/useCommentShow.js'
 import MoodCommentInput from '@/components/home/moodCommentInput.vue'
 import MoodCommentListItem from '@/components/home/moodCommentListItem.vue'
@@ -75,7 +75,6 @@ export default {
         // 交互功能
         const comsData = ref([])
         const praiseRef = ref(null)
-        const donePraiseRef = ref(false)
         const body = {
             auther: props.auther, // mood的作者
             type: props.type, // mood类型
@@ -89,7 +88,7 @@ export default {
 
         const { onGetComs, onComment } = useCommentInterface()
 
-        const { onGetDonePraise, praiseCU } = usePraiseInterface()
+        const { praiseCU ,onGetPraise} = usePraiseInterface()
 
         // 评论input组件触发的接受函数
         const onCreateCom = async condition => {
@@ -101,7 +100,6 @@ export default {
             // userID,怎么获取,这里时为了统一管理用了vuex，由于刷新页面，vuex的状态数据就初始化了。所以要在commit（sessionStorage）
             const result = await praiseCU(props.moodId, store.state.account.id)
             praiseRef.value = result.praise.count
-            donePraiseRef.value = result.done
         }
 
         // 获取数据
@@ -109,17 +107,17 @@ export default {
             //$http错误的问题都集中在http中，如果进入到这里，说明是成功的返回结果。
             const coms = await onGetComs(params)
             // 用户id
-            const result = await onGetDonePraise(
-                props.moodId,
-                store.state.account.id
-            )
+          const result =  await onGetPraise( props.moodId)
+         
             comsData.value = coms.message
             if (result === null) {
                 praiseRef.value = null
             } else {
-                praiseRef.value = result.praise.count
-                donePraiseRef.value = result.done
+                praiseRef.value = result.count
             }
+        })
+        watchEffect(() => {
+
         })
 
         return {
@@ -127,7 +125,6 @@ export default {
             onCreateCom,
             comsData,
             praiseRef,
-            donePraiseRef,
             onpraise
         }
     },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <audio
-            id="audio"
+            ref="music"
             :src="mp3Url"
             @timeupdate="ontimeupdta"
             @durationchange="ondurationchange"
@@ -45,7 +45,7 @@
                 </div>
             </el-col>
             <el-col :span="10">
-                <div class="voice-size" @click="onvoiceclick">
+                <div ref="voice" class="voice-size" @click="onvoiceclick">
                     <el-progress
                         :text-inside="true"
                         :stroke-width="2"
@@ -87,7 +87,7 @@ export default {
             required: true
         }
     },
-    setup() {
+    setup(props, context) {
         const audioDataRef = ref({
             progressPer: 0,
             voicePer: 50,
@@ -98,14 +98,19 @@ export default {
             totleTime: ''
         })
         // video 动态操作。
+        const music = ref(null)
+        const progress = ref(null)
+        const voice = ref(null)
+        
         let audioDom, progressDom, voiceSizeDom
 
         onMounted(() => {
             // 使用audiodom的方法。
-            audioDom = document.getElementById('audio')
+            audioDom = music.value
+
             // 这两个dom，为了计算偏移距离
-            progressDom = document.getElementsByClassName('audio-progress')[0]
-            voiceSizeDom = document.getElementsByClassName('voice-size')[0]
+            progressDom = progress.value
+            voiceSizeDom = voice.value
         })
 
         /**
@@ -265,7 +270,10 @@ export default {
             onprogressclick,
             onmousedownvoice,
             onchangevolume,
-            onvoiceclick
+            onvoiceclick,
+            music,
+            voice,
+            progress
         }
     }
 }

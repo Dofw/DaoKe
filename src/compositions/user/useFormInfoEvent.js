@@ -23,6 +23,9 @@ export default function useFormInfoEvent(proxyData) {
     })
     //
     const isShow = ref(false)
+    // const test = function() {
+    //     console.log(111, this)
+    // }
     const changeshow = function() {
         //当做submit的工具函数调用
         isShow.value = !isShow.value
@@ -100,6 +103,7 @@ export default function useFormInfoEvent(proxyData) {
     }
 
     const onLogout = function() {
+        console.log(this)
         this.$confirm('是否注销登录！', proxyData.value.nickname, {
             confirmButtonText: '确定',
             cancelButtonText: '取消',

@@ -8,9 +8,11 @@
             icon="el-icon-user-solid"
         ></el-avatar>
         <div class="me d-flex align-self-end flex-grow-1 ">
-            <span class="d-flex align-items-center flex-grow-1 ml-3">{{
-                formInfo.nickname
-            }}</span>
+            <span
+                class="d-flex align-items-center flex-grow-1 ml-3"
+                @click="test"
+                >{{ formInfo.nickname }}</span
+            >
             <div
                 class="d-flex justify-content-center align-content-around flex-wrap"
             >
@@ -155,6 +157,7 @@ export default {
                 return store.state.user.formInfo
             }
         })
+
         //获取服务端数据
         store.dispatch('user/' + GET_USER_INIT)
 

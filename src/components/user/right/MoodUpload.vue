@@ -35,7 +35,7 @@
             </div>
             <div class="resMusic d-flex">
                 <img :src="pictureUrl" alt="" v-if="pictureUrl" />
-                <div class="avatar-default" v-else>
+                <div class="avatar-default" @click="test" v-else>
                     <el-avatar
                         :size="100"
                         fit="cover"

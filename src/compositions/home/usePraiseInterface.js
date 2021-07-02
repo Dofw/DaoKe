@@ -106,11 +106,13 @@ export default function useCommentInterface() {
         // 获取跟新后的数据
         donePraise = await onGetDonePraise(id1, id2)
         return donePraise
+
     }
 
     return {
         onCreateDonePraise,
         onGetDonePraise,
+        onGetPraise,
         praiseCU
     }
 }
