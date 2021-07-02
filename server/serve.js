@@ -13,7 +13,7 @@ app.use(
     '/admin/public/upload/',
     express.static(path.join(__dirname, '/public/upload/'))
 )
-app.use('/', express.static(path.join(__dirname, '/daoke')))
+// app.use('/', express.static(path.join(__dirname, '/daoke')))
 
 require('./mongodb/connect.js')()
 require('./router/adminUpload.js')(app)
